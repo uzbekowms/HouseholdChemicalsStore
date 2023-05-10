@@ -3,30 +3,39 @@
 @tailwind utilities;
 
 .routerlink {
-  padding: 8px;
+  padding: 6px;
   font-weight: 500;
   color: #f3f4f6;
   background-color: #353531;
-  border-radius: 14px;
-  transition: .3s all ease-in-out;
-}
-
-.link {
-  border-radius: 14px;
-  transition: .3s all ease-in-out;
-}
-
-.link:hover {
-  color: #888787;
+  border: solid 5px #353531;
   border-radius: 14px;
   transition: .3s all ease-in-out;
 }
 
 .routerlink:hover {
-  background-color: #646464;
+  color: #353531;
+  background-color: transparent;
   transition: .3s all ease-in-out;
+}
+
+.link {
+  border-radius: 14px;
+  transition: .2s all ease-in-out;
+}
+
+.link:hover {
+  color: gray;
+  border-radius: 14px;
+  transition: .2s all ease-in-out;
+  transform: translateY(-2px);
 }
 
 .bg-color {
   background-color: #ff0000;
+}
+
+.non-grid-item {
+  position: absolute;
+  top: 0;
+  left: 0;
 }
