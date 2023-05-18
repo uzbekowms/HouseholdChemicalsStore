@@ -11,8 +11,8 @@
             </p>
         </div>
         <div class="flex flex-col items-center justify-around gap-4 m-4 border-l-4 pl-4 border-neutral-700">
-            <router-link :to="{name: 'UserEdit'}" class="routerlink cursor-pointer bg-emerald-500 border-emerald-500 hover:text-emerald-500">Редагувати профіль</router-link>
-            <router-link :to="{name: 'Login'}" class="routerlink cursor-pointer bg-red-500 border-red-500 hover:text-red-500">Вийти з аккаунту</router-link>
+            <router-link :to="{name: 'UserEdit'}" class="routerlink cursor-pointer bg-emerald-500 border-emerald-500 hover:border-emerald-500 hover:text-emerald-500">Редагувати профіль</router-link>
+            <router-link :to="{name: 'Login'}" class="routerlink cursor-pointer bg-red-500 border-red-500 hover:border-red-500 hover:text-red-500">Вийти з аккаунту</router-link>
         </div>
         </div>
 

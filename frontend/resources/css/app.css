@@ -14,7 +14,17 @@
 
 .routerlink:hover {
   color: #353531;
+  cursor: pointer;
   background-color: transparent;
+  border: solid 5px #353531;
+  transition: .3s all ease-in-out;
+}
+
+.selected {
+  color: white;
+  cursor: pointer;
+  background-color: #10b981;
+  border: solid 5px #10b981;
   transition: .3s all ease-in-out;
 }
 

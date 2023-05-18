@@ -11,6 +11,7 @@ import RegisterPage from './components/authpages/RegisterPage.vue'
 import UserEdit from './components/editable/UserEdit.vue'
 
 import AdminComponent from './components/admin/AdminComponent.vue'
+import EditProduct from './components/admin/EditProduct.vue'
 
 
 const routes = [
@@ -33,6 +34,12 @@ const routes = [
         path: '/products/:id?',
         name: 'ProductPage',
         component: ProductPage,
+        props: true
+    },
+    {
+        path: '/products/:id?/edit',
+        name: 'EditProduct',
+        component: EditProduct,
         props: true
     },
     {
