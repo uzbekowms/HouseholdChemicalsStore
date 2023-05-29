@@ -1,0 +1,35 @@
+package ua.store.domain.factory;
+
+import org.springframework.stereotype.Service;
+import ua.store.domain.model.Product;
+import ua.store.web.dto.ProductDTORequest;
+import ua.store.web.dto.ProductDTOResponse;
+
+@Service
+public class ProductFactory {
+
+    public Product fromDto(ProductDTORequest productDTO) {
+        return Product.builder()
+                .id(productDTO.getId())
+                .name(productDTO.getName())
+                .description(productDTO.getDescription())
+                .price(productDTO.getPrice())
+                .category(productDTO.getCategory())
+                .imagePath(productDTO.getImageName())
+                .disabled(productDTO.isDisabled())
+                .build();
+    }
+
+    public ProductDTOResponse toDto(Product product) {
+        ProductDTOResponse dtoResponse = new ProductDTOResponse();
+        dtoResponse.setId(product.getId());
+        dtoResponse.setName(product.getName());
+        dtoResponse.setDescription(product.getDescription());
+        dtoResponse.setCategory(product.getCategory());
+        dtoResponse.setDisabled(product.isDisabled());
+        dtoResponse.setImagePath(product.getImagePath());
+        dtoResponse.setPrice(product.getPrice());
+        dtoResponse.setReviews(product.getReviews());
+        return dtoResponse;
+    }
+}
