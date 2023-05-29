@@ -15,7 +15,7 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @OneToMany(mappedBy = "order_id")
+    @OneToMany(mappedBy = "order")
     private List<OrderProduct> products;
 
     @Column(name = "time_of_order")

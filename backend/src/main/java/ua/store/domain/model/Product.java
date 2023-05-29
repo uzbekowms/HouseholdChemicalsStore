@@ -28,6 +28,6 @@ public class Product {
 
     private boolean disabled;
 
-    @OneToMany(mappedBy = "product_id")
+    @OneToMany(mappedBy = "product")
     private List<Review> reviews;
 }
