@@ -5,6 +5,8 @@ import ua.store.domain.model.Product;
 import ua.store.web.dto.ProductDTORequest;
 import ua.store.web.dto.ProductDTOResponse;
 
+import java.util.List;
+
 @Service
 public class ProductFactory {
 

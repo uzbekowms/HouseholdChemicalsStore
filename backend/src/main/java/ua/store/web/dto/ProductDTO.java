@@ -7,8 +7,7 @@ import ua.store.domain.model.Review;
 
 import java.util.List;
 
-@Getter
-@Setter
+@Data
 public abstract class ProductDTO {
 
     private int id;
