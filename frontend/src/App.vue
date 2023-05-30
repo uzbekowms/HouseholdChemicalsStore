@@ -1,26 +1,34 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <!--<img alt="Vue logo" src="./assets/logo.png">-->
+  <div class="parallax m-auto justify-center">
+    <img src="" data-type="background" v-parallax>
+  </div>
+
+  <MainLayout/>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+
+import parallax from './parallax.js';
+import MainLayout from './components/pageelements/MainLayout.vue'
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    MainLayout
+  },
+  directives: {
+    'parallax': parallax
   }
 }
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+  body {
+        background-color: #F4F1ED;/*
+        background-size: 30%;
+        background-position: center;
+        background-image: url("../src/assets/pagesimages/leaves.png");
+        background-repeat:repeat;*/
+    }
 </style>
