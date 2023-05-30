@@ -1,12 +1,13 @@
 package ua.store.web.restcontroller;
 
+import org.jboss.resteasy.annotations.providers.multipart.MultipartForm;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ua.store.domain.model.Product;
 import ua.store.domain.service.ProductService;
 import ua.store.web.dto.ProductDTORequest;
-import ua.store.web.dto.ProductDTOResponse;
 
 import java.util.List;
 
@@ -21,22 +22,23 @@ public class ProductController {
     }
 
     @GetMapping
-    public ResponseEntity<List<ProductDTOResponse>> getAllProducts() {
+    public ResponseEntity<List<Product>> getAllProducts() {
         return ResponseEntity.ok(productService.findAll());
     }
 
     @GetMapping(params = {"page", "count"})
-    public ResponseEntity<List<ProductDTOResponse>> getAllProductsByPage(@PathVariable(value = "page") int page, @PathVariable(value = "count") int count) {
+    public ResponseEntity<List<Product>> getAllProductsByPage(@PathVariable(value = "page") int page, @PathVariable(value = "count") int count) {
         return ResponseEntity.ok(productService.findAll(PageRequest.of(page, count)));
     }
 
     @PostMapping
-    public ResponseEntity<ProductDTOResponse> addProduct(@RequestBody ProductDTORequest product) {
+    public ResponseEntity<Product> addProduct(@ModelAttribute ProductDTORequest product) {
+        System.out.println(product);
         return ResponseEntity.status(HttpStatus.CREATED).body(productService.save(product));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ProductDTOResponse> updateProduct(@RequestBody ProductDTORequest product, @PathVariable int id) {
+    public ResponseEntity<Product> updateProduct(@ModelAttribute ProductDTORequest product, @PathVariable int id) {
         return ResponseEntity.status(HttpStatus.CREATED).body(productService.update(product, id));
     }
 }

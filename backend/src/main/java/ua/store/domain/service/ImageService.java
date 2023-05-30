@@ -9,4 +9,6 @@ public interface ImageService {
     String save(MultipartFile file);
 
     Resource get(String name) throws FileNotFoundException;
+
+    void rewrite(String name, MultipartFile file);
 }

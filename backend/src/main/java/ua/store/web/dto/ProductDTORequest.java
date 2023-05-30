@@ -2,12 +2,29 @@ package ua.store.web.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import org.springframework.web.multipart.MultipartFile;
+import ua.store.domain.model.Category;
+import ua.store.domain.model.Review;
 
-@EqualsAndHashCode(callSuper = true)
+import java.util.List;
+
 @Data
-public class ProductDTORequest extends ProductDTO {
+public class ProductDTORequest {
+
+    private int id;
+    @NotBlank(message = "Name cannot be blank")
+    private String name;
+
+    @NotBlank(message = "Description cannot be blank")
+    private String description;
+    @NotBlank(message = "Price cannot be blank")
+    private float price;
+    @NotBlank(message = "Category cannot be blank")
+    private int categoryId;
+
+    private boolean disabled;
+
+    private List<Review> reviews;
     @NotBlank(message = "Image cannot be blank")
     private MultipartFile image;
 

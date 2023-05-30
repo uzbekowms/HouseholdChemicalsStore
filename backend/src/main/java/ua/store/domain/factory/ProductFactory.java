@@ -2,13 +2,17 @@ package ua.store.domain.factory;
 
 import org.springframework.stereotype.Service;
 import ua.store.domain.model.Product;
+import ua.store.domain.service.CategoryService;
 import ua.store.web.dto.ProductDTORequest;
-import ua.store.web.dto.ProductDTOResponse;
-
-import java.util.List;
 
 @Service
 public class ProductFactory {
+
+    private final CategoryService categoryService;
+
+    public ProductFactory(CategoryService categoryService) {
+        this.categoryService = categoryService;
+    }
 
     public Product fromDto(ProductDTORequest productDTO) {
         return Product.builder()
@@ -16,13 +20,13 @@ public class ProductFactory {
                 .name(productDTO.getName())
                 .description(productDTO.getDescription())
                 .price(productDTO.getPrice())
-                .category(productDTO.getCategory())
+                .category(categoryService.findById(productDTO.getCategoryId()))
                 .imagePath(productDTO.getImageName())
                 .disabled(productDTO.isDisabled())
                 .build();
     }
 
-    public ProductDTOResponse toDto(Product product) {
+   /* public ProductDTOResponse toDto(Product product) {
         ProductDTOResponse dtoResponse = new ProductDTOResponse();
         dtoResponse.setId(product.getId());
         dtoResponse.setName(product.getName());
@@ -33,5 +37,5 @@ public class ProductFactory {
         dtoResponse.setPrice(product.getPrice());
         dtoResponse.setReviews(product.getReviews());
         return dtoResponse;
-    }
+    }*/
 }

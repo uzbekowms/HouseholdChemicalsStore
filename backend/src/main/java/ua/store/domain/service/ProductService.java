@@ -4,7 +4,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import ua.store.domain.model.Product;
 import ua.store.web.dto.ProductDTORequest;
-import ua.store.web.dto.ProductDTOResponse;
 
 import java.util.List;
 
@@ -12,21 +11,21 @@ import java.util.List;
 @Service
 public interface ProductService {
 
-    List<ProductDTOResponse> findAll();
+    List<Product> findAll();
 
-    List<ProductDTOResponse> findAll(Pageable pageable);
+    List<Product> findAll(Pageable pageable);
 
-    List<ProductDTOResponse> findAll(int categoryId, Pageable pageable);
+    List<Product> findAll(int categoryId, Pageable pageable);
 
-    List<ProductDTOResponse> findAll(int categoryId, Pageable pageable, String search);
+    List<Product> findAll(int categoryId, Pageable pageable, String search);
 
-    List<ProductDTOResponse> findAll(Pageable pageable, String search);
+    List<Product> findAll(Pageable pageable, String search);
 
-    ProductDTOResponse findById(int id);
+    Product findById(int id);
 
-    ProductDTOResponse save(ProductDTORequest product);
+    Product save(ProductDTORequest product);
 
     boolean deleteById(int id);
 
-    ProductDTOResponse update(ProductDTORequest product, int id);
+    Product update(ProductDTORequest product, int id);
 }

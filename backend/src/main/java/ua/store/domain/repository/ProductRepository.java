@@ -5,7 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import ua.store.domain.model.Product;
-import ua.store.web.dto.ProductDTOResponse;
 
 import java.util.List;
 

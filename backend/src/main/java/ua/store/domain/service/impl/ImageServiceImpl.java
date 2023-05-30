@@ -1,7 +1,6 @@
 package ua.store.domain.service.impl;
 
 
-import jakarta.servlet.ServletContext;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
@@ -19,40 +18,42 @@ import java.util.UUID;
 @Service
 public class ImageServiceImpl implements ImageService {
 
-    private final ServletContext context;
-
-    public ImageServiceImpl(ServletContext context) {
-        this.context = context;
-    }
-
     @Override
     public String save(MultipartFile file) {
-        if (file.isEmpty()) {
+        if (file.isEmpty())
             throw new IllegalArgumentException("Please select a file to upload");
-        }
-        try {
-            String fileName = UUID.randomUUID() + "." + FilenameUtils.getExtension(file.getOriginalFilename());
-            String uploadDir = new FileSystemResource("").getFile().getAbsolutePath() + "/images/";
 
-            File dest = new File(uploadDir + fileName);
-            System.out.println(dest);
-            file.transferTo(dest);
+        String filename = UUID.randomUUID() + "." + FilenameUtils.getExtension(file.getOriginalFilename());
 
-            return fileName;
-        } catch (IOException e) {
-            e.printStackTrace();
-            throw new RuntimeException("Something went wrong while uploading image");
-        }
+        return saveFile(filename, file);
     }
 
     @Override
     public Resource get(String name) throws FileNotFoundException {
         Path imagePath = ResourceUtils.getFile(new FileSystemResource("").getFile().getAbsolutePath() + "/images/" + name).toPath();
-        System.out.println(imagePath);
         Resource resource = new FileSystemResource(imagePath);
         if (!resource.exists())
             throw new FileNotFoundException("Cannot find image with name: " + name);
 
         return resource;
+    }
+
+    @Override
+    public void rewrite(String name, MultipartFile file) {
+        saveFile(name, file);
+    }
+
+    private String saveFile(String filename, MultipartFile file) {
+        try {
+            String uploadDir = new FileSystemResource("").getFile().getAbsolutePath() + "/images/";
+
+            File dest = new File(uploadDir + filename);
+            file.transferTo(dest);
+
+            return filename;
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Something went wrong while uploading image");
+        }
     }
 }
