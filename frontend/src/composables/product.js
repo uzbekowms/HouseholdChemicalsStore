@@ -7,7 +7,7 @@ export default function restProduct() {
 
     const errors = ref({});
 
-    const BASE_URL = '';
+    const BASE_URL = 'http://localhost:8001/api/v1/';
 
     const getProducts = async () => {
         const response = await axios.get(BASE_URL.value + "/products");
