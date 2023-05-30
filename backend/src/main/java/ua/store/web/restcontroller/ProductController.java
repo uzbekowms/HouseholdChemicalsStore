@@ -1,6 +1,5 @@
 package ua.store.web.restcontroller;
 
-import org.jboss.resteasy.annotations.providers.multipart.MultipartForm;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -40,5 +39,10 @@ public class ProductController {
     @PutMapping("/{id}")
     public ResponseEntity<Product> updateProduct(@ModelAttribute ProductDTORequest product, @PathVariable int id) {
         return ResponseEntity.status(HttpStatus.CREATED).body(productService.update(product, id));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteProduct(@PathVariable int id) {
+        return ResponseEntity.ok().body(productService.deleteById(id) ? "Product with id: " + id + " has been deleted" : "Product not deleted");
     }
 }
