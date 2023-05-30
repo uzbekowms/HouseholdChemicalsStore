@@ -25,6 +25,11 @@ public class ProductController {
         return ResponseEntity.ok(productService.findAll());
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<Product> getProductById(@PathVariable int id) {
+        return ResponseEntity.ok(productService.findById(id));
+    }
+
     @GetMapping(params = {"page", "count"})
     public ResponseEntity<List<Product>> getAllProductsByPage(@PathVariable(value = "page") int page, @PathVariable(value = "count") int count) {
         return ResponseEntity.ok(productService.findAll(PageRequest.of(page, count)));
