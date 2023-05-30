@@ -1,16 +1,16 @@
 package ua.store.web.dto;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Null;
 import lombok.Data;
 import org.springframework.web.multipart.MultipartFile;
-import ua.store.domain.model.Category;
 import ua.store.domain.model.Review;
 
 import java.util.List;
 
 @Data
 public class ProductDTORequest {
-
+    @Null
     private int id;
     @NotBlank(message = "Name cannot be blank")
     private String name;
