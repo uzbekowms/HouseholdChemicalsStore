@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-row w-2/3 m-auto justify-between gap-4">
-    <div class="flex flex-col">
+    <div class="flex flex-col" v-if="product">
       <div class="flex flex-row gap-12">
         <div>
           <div
@@ -9,12 +9,12 @@
             <p
               class="group-hover:text-emerald-800 duration-300 font-bold text-neutral-700 p-2 rounded-xl"
             >
-              Миючі засоби
+              {{ product.category?.name }}
             </p>
           </div>
           <img
             class="rounded-3xl"
-            src="../../assets/pagesimages/finish.jpg"
+            :src="'http://localhost:8001/api/v1/images/' + product.imagePath"
             alt=""
           />
         </div>
@@ -22,11 +22,10 @@
           class="flex w-full p-12 flex-col bg-white border-2 border-white rounded-3xl text-neutral-700 bg-opacity-70 backdrop-filter backdrop-blur-lg"
         >
           <h1 class="break-word font-bold text-4xl text-neutral-700">
-            Finish 3 упаковки<br />XL Pack
+            {{ product.name }}
           </h1>
           <p class="mt-2 text-blue-700 text-4xl font-bold">
-            399₴
-            <span class="text-red-400 text-xl line-through"> 510₴ </span>
+            {{ product.price }}₴
           </p>
 
           <div class="flex flex-col w-full m-auto justify-center">
@@ -83,14 +82,11 @@
             <img class="h-12" src="../../assets/icons/info.png" alt="" />
           </div>
 
-          <div class="mt-8 grid grid-cols-2 gap-12 items-center">
-            <div class="border-r-2 px-4">
-              <p class="font-bold text-neutral-600 text-2xl">Миття вікон</p>
-              <p class="font-bold text-neutral-600 text-2xl">Ще якась тема</p>
-            </div>
-            <div>
-              <p>Справляється на чудово</p>
-              <p>Справляється заєбісь</p>
+          <div class="mt-8 flex gap-12 items-center">
+            <div class="px-4">
+              <p class="font-bold text-neutral-600 text-2xl">
+                {{ product.description }}
+              </p>
             </div>
           </div>
         </div>
@@ -121,19 +117,17 @@
       </div>
     </div>
   </div>
-  {{ product }}
 </template>
 
 <script setup>
 import { onMounted } from "vue";
-import { useRouter } from "vue-router";
-const router = useRouter();
+import { useRoute } from "vue-router";
+const router = useRoute();
 import restProduct from "../../composables/product";
 
-const { getProductById, product } = restProduct();
+const { getProduct, product } = restProduct();
 
 onMounted(() => {
-  console.log(router);
-  getProductById(this.$route.params.id);
+  getProduct(router.params.id);
 });
 </script>

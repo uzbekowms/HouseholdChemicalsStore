@@ -69,7 +69,7 @@ export default function restProduct() {
     const response = await axios.get(
       "http://localhost:8001/api/v1/products/" + id
     );
-    product.value = response.data.data;
+    product.value = response.data;
   };
 
   const updateProduct = async (id) => {
