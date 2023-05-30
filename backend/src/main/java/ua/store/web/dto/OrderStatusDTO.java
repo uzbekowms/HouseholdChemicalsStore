@@ -1,24 +1,19 @@
-package ua.store.domain.model;
+package ua.store.web.dto;
 
-import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@Entity
-@Table(name = "order_statuses")
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class OrderStatus {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class OrderStatusDTO {
     private int id;
-
+    @NotBlank(message = "Name of status cannot be blank")
     private String name;
-
+    @NotBlank(message = "Color of status cannot be blank")
     private String color;
 }
