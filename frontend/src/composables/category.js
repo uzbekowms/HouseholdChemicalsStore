@@ -10,8 +10,15 @@ export default function restCategory() {
   const BASE_API_URL = ref["http://localhost:8001/api/v1"];
 
   const getCategories = async () => {
-    const response = await axios.get(BASE_API_URL.value + "/categories");
-    categories.value = response.data.data;
+    try {
+      const response = await axios.get(
+        "http://localhost:8001/api/v1/categories"
+      );
+      categories.value = response.data;
+      console.log(response);
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   const getCategory = async (id) => {
@@ -19,9 +26,10 @@ export default function restCategory() {
     category.value = response.data.data;
   };
 
-  const updateCategory = async (id) => {
+  const updateCategory = async (cat) => {
     try {
-      await axios.put(BASE_API_URL.value + "/categories/" + id, category.value);
+      console.log(cat);
+      await axios.put("http://localhost:8001/api/v1/categories/" + cat.id, cat);
     } catch (error) {
       if (error.response.status === 422) {
         errors.value = error.response.data.errors;
@@ -45,7 +53,7 @@ export default function restCategory() {
     if (!window.confirm("Видалити категорію?")) {
       return;
     }
-    await axios.delete(BASE_API_URL.value + "/categories/" + id);
+    await axios.delete("http://localhost:8001/api/v1/categories/" + id);
   };
 
   return {
