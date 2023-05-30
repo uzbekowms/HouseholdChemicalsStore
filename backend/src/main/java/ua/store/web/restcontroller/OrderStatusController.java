@@ -37,5 +37,4 @@ public class OrderStatusController {
     public ResponseEntity<String> deleteOrderStatus(@PathVariable int id) {
         return ResponseEntity.ok(orderStatusService.delete(id) ? "Order Status with id: " + id + " deleted" : "Order status not deleted");
     }
-
 }
