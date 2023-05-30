@@ -41,6 +41,11 @@ public class ProductController {
         return ResponseEntity.status(HttpStatus.CREATED).body(productService.update(product, id));
     }
 
+    @DeleteMapping("/{id}/disable")
+    public ResponseEntity<String> updateProduct(@PathVariable int id) {
+        return ResponseEntity.ok().body(productService.disable(id) ? "Product with id: " + id + " has been deleted" : "Product not deleted");
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteProduct(@PathVariable int id) {
         return ResponseEntity.ok().body(productService.deleteById(id) ? "Product with id: " + id + " has been deleted" : "Product not deleted");

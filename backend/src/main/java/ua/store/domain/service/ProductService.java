@@ -28,4 +28,6 @@ public interface ProductService {
     boolean deleteById(int id);
 
     Product update(ProductDTORequest product, int id);
+
+    boolean disable(int id);
 }

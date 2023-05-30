@@ -85,6 +85,16 @@ public class ProductServiceImpl implements ProductService {
         return repository.save(productToUpdate);
     }
 
+    @Override
+    public boolean disable(int id) {
+        checkExists(id);
+
+        Product product = repository.findById(id).orElseThrow();
+        product.setDisabled(true);
+        repository.save(product);
+        return true;
+    }
+
     private void checkExists(int id) {
         if (!repository.existsById(id))
             throw new EntityNotFoundException("Cant find Product with id: " + id);
