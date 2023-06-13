@@ -26,7 +26,12 @@ public class ImageController {
     }
 
     @PostMapping
-    public ResponseEntity<String> uploadImage(@RequestParam MultipartFile file) {
+    public ResponseEntity<String> uploadImage(@RequestParam("file") MultipartFile file) {
         return ResponseEntity.ok(imageService.save(file));
+    }
+
+    @PutMapping("/{name:.+}")
+    public ResponseEntity<String> updateImage(@RequestParam("file") MultipartFile file, @PathVariable String name) {
+        return ResponseEntity.ok(imageService.save(name, file));
     }
 }

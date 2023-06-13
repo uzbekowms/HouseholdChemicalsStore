@@ -80,7 +80,7 @@ public class ProductServiceImpl implements ProductService {
         Product productToUpdate = factory.fromDto(product);
         productToUpdate.setId(id);
 
-        imageService.rewrite(productToUpdate.getImagePath(), product.getImage());
+        imageService.save(productToUpdate.getImagePath(), product.getImage());
 
         return repository.save(productToUpdate);
     }
