@@ -10,7 +10,8 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ReviewDTO {
+public class ReviewDTORequest {
+    private int id;
     private int productId;
     private int userId;
     private String text;
