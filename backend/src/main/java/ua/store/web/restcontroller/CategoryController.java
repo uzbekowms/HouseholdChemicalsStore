@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ua.store.domain.model.Category;
 import ua.store.domain.service.CategoryService;
+import ua.store.web.dto.CategoryDTO;
 
 import java.util.List;
 
@@ -21,22 +22,22 @@ public class CategoryController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Category>> getAllCategories() {
+    public ResponseEntity<List<CategoryDTO>> getAllCategories() {
         return ResponseEntity.ok(categoryService.findAll());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Category> getCategoryById(@PathVariable int id) {
+    public ResponseEntity<CategoryDTO> getCategoryById(@PathVariable int id) {
         return ResponseEntity.ok(categoryService.findById(id));
     }
 
     @PostMapping
-    public ResponseEntity<Category> saveCategory(@RequestBody Category category) {
+    public ResponseEntity<CategoryDTO> saveCategory(@RequestBody CategoryDTO category) {
         return ResponseEntity.status(HttpStatus.CREATED).body(categoryService.save(category));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Category> updateCategory(@RequestBody Category category, @PathVariable int id) {
+    public ResponseEntity<CategoryDTO> updateCategory(@RequestBody CategoryDTO category, @PathVariable int id) {
         return ResponseEntity.ok(categoryService.update(category, id));
     }
 

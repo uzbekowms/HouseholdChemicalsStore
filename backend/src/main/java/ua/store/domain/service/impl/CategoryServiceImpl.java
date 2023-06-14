@@ -5,6 +5,8 @@ import org.springframework.stereotype.Service;
 import ua.store.domain.model.Category;
 import ua.store.domain.repository.CategoryRepository;
 import ua.store.domain.service.CategoryService;
+import ua.store.web.dto.CategoryDTO;
+import ua.store.domain.factory.CategoryFactory;
 
 import java.util.List;
 
@@ -12,31 +14,35 @@ import java.util.List;
 public class CategoryServiceImpl implements CategoryService {
 
     private final CategoryRepository categoryRepository;
+    private final CategoryFactory categoryFactory;
 
-    public CategoryServiceImpl(CategoryRepository categoryRepository) {
+    public CategoryServiceImpl(CategoryRepository categoryRepository, CategoryFactory categoryFactory) {
         this.categoryRepository = categoryRepository;
+        this.categoryFactory = categoryFactory;
     }
 
     @Override
-    public List<Category> findAll() {
-        return categoryRepository.findAll();
+    public List<CategoryDTO> findAll() {
+        return categoryRepository.findAll().stream().map(categoryFactory::toDto).toList();
     }
 
     @Override
-    public Category findById(int id) {
-        return categoryRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Cannot find Category with id: " + id));
+    public CategoryDTO findById(int id) {
+        return categoryFactory.toDto(categoryRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Cannot find Category with id: " + id)));
+    }
+    @Override
+    public CategoryDTO save(CategoryDTO category) {
+        Category categoryToSave = categoryFactory.fromDto(category);
+        return categoryFactory.toDto(categoryRepository.save(categoryToSave));
     }
 
     @Override
-    public Category save(Category category) {
-        return categoryRepository.save(category);
-    }
-
-    @Override
-    public Category update(Category category, int id) {
+    public CategoryDTO update(CategoryDTO category, int id) {
         checkExists(id);
-        category.setId(id);
-        return categoryRepository.save(category);
+        Category categoryToUpdate = categoryFactory.fromDto(category);
+        categoryToUpdate.setId(id);
+        return categoryFactory.toDto(categoryRepository.save(categoryToUpdate));
     }
 
     @Override
