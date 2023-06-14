@@ -10,12 +10,7 @@ import java.util.List;
 
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Integer> {
-    @Query("SELECT p FROM Product p WHERE p.category.id = :categoryId")
-    List<Product> findAll(int categoryId, Pageable pageable);
+    @Query("SELECT p FROM Product p WHERE p.category.id = :categoryId AND (lower( p.name ) LIKE '%' || lower(:search) ||'%' OR lower(p.description) LIKE '%' || lower(:search) )")
+    List<Product> findAll(Pageable pageable, int categoryId, String search);
 
-    @Query("SELECT p FROM Product p WHERE p.category.id = :categoryId AND lower(p.name) LIKE '%' || :search || '%'")
-    List<Product> findAll(int categoryId, Pageable pageable, String search);
-
-    @Query("SELECT p FROM Product p WHERE lower(p.name) LIKE '%' || :search || '%'")
-    List<Product> findAll(Pageable pageable, String search);
 }

@@ -30,25 +30,13 @@ public class ProductServiceImpl implements ProductService {
         return repository.findAll();
     }
 
-    @Override
-    public List<Product> findAll(Pageable pageable) {
-        return repository.findAll(pageable).stream().toList();
-    }
 
     @Override
-    public List<Product> findAll(int categoryId, Pageable pageable) {
-        return repository.findAll(categoryId, pageable).stream().toList();
+    public List<Product> findAll(Pageable pageable, int categoryId, String search) {
+        return repository.findAll(pageable, categoryId, search).stream().toList();
     }
 
-    @Override
-    public List<Product> findAll(int categoryId, Pageable pageable, String search) {
-        return repository.findAll(categoryId, pageable, search).stream().toList();
-    }
 
-    @Override
-    public List<Product> findAll(Pageable pageable, String search) {
-        return repository.findAll(pageable, search).stream().toList();
-    }
 
     @Override
     public Product findById(int id) {
@@ -59,8 +47,6 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Product save(ProductDTORequest product) {
         Product productToSave = factory.fromDto(product);
-
-        productToSave.setImagePath(imageService.save(product.getImage()));
 
         return repository.save(productToSave);
     }
@@ -76,11 +62,8 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Product update(ProductDTORequest product, int id) {
         checkExists(id);
-
         Product productToUpdate = factory.fromDto(product);
         productToUpdate.setId(id);
-
-        imageService.save(productToUpdate.getImagePath(), product.getImage());
 
         return repository.save(productToUpdate);
     }

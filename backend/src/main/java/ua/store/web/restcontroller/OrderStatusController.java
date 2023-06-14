@@ -1,5 +1,6 @@
 package ua.store.web.restcontroller;
 
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,12 +25,12 @@ public class OrderStatusController {
     }
 
     @PostMapping
-    public ResponseEntity<OrderStatusDTO> addOrderStatus(@RequestBody OrderStatusDTO orderStatusDTO) {
+    public ResponseEntity<OrderStatusDTO> addOrderStatus(@RequestBody @Valid OrderStatusDTO orderStatusDTO) {
         return ResponseEntity.status(HttpStatus.CREATED).body(orderStatusService.save(orderStatusDTO));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<OrderStatusDTO> updateOrderStatus(@RequestBody OrderStatusDTO orderStatusDTO, @PathVariable int id) {
+    public ResponseEntity<OrderStatusDTO> updateOrderStatus(@RequestBody @Valid OrderStatusDTO orderStatusDTO, @PathVariable int id) {
         return ResponseEntity.ok(orderStatusService.update(orderStatusDTO, id));
     }
 

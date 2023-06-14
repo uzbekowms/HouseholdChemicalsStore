@@ -13,13 +13,7 @@ public interface ProductService {
 
     List<Product> findAll();
 
-    List<Product> findAll(Pageable pageable);
-
-    List<Product> findAll(int categoryId, Pageable pageable);
-
-    List<Product> findAll(int categoryId, Pageable pageable, String search);
-
-    List<Product> findAll(Pageable pageable, String search);
+    List<Product> findAll(Pageable pageable, int categoryId, String search);
 
     Product findById(int id);
 

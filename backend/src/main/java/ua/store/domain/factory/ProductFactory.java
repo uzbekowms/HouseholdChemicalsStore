@@ -21,7 +21,7 @@ public class ProductFactory {
                 .description(productDTO.getDescription())
                 .price(productDTO.getPrice())
                 .category(categoryService.findById(productDTO.getCategoryId()))
-                .imagePath(productDTO.getImageName())
+                .imagePath(productDTO.getImagePath())
                 .disabled(productDTO.isDisabled())
                 .build();
     }

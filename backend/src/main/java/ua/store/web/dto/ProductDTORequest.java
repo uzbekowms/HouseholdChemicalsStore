@@ -3,7 +3,6 @@ package ua.store.web.dto;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Null;
 import lombok.Data;
-import org.springframework.web.multipart.MultipartFile;
 import ua.store.domain.model.Review;
 
 import java.util.List;
@@ -25,8 +24,7 @@ public class ProductDTORequest {
     private boolean disabled;
 
     private List<Review> reviews;
-    @NotBlank(message = "Image cannot be blank")
-    private MultipartFile image;
 
-    private String imageName;
+    @NotBlank(message = "Image cannot be blank")
+    private String imagePath;
 }

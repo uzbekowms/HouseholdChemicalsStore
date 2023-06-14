@@ -35,7 +35,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public Category update(Category category, int id) {
         checkExists(id);
-
+        category.setId(id);
         return categoryRepository.save(category);
     }
 
