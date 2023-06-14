@@ -9,10 +9,18 @@ import ua.store.web.dto.CategoryDTO;
 public class CategoryFactory {
 
     public Category fromDto(CategoryDTO categoryDTO) {
-        return null;
+        return Category.builder()
+                .id(categoryDTO.getId())
+                .name(categoryDTO.getName())
+                .description(categoryDTO.getDescription())
+                .build();
     }
 
     public CategoryDTO toDto(Category category) {
-        return null;
+        return CategoryDTO.builder()
+                .id(category.getId())
+                .name(category.getName())
+                .description(category.getDescription())
+                .build();
     }
 }
