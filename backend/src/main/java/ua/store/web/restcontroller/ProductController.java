@@ -33,9 +33,9 @@ public class ProductController {
     @GetMapping
     public ResponseEntity<List<Product>> getAllProductsByPage(@RequestParam(required = false, defaultValue = "1", value = "page") int page,
                                                               @RequestParam(required = false, defaultValue = "20", value = "count") int count,
-                                                              @RequestParam(required = false, defaultValue = "", value = "category_id") int categoryId,
+                                                              //@RequestParam(required = false, defaultValue = "", value = "category_id") int categoryId,
                                                               @RequestParam(required = false, defaultValue = "", value = "search") String search) {
-        return ResponseEntity.ok(productService.findAll(PageRequest.of(page, count), categoryId, search));
+        return ResponseEntity.ok(productService.findAll(PageRequest.of(page, count)/*, categoryId*/, search));
     }
 
     @PostMapping
