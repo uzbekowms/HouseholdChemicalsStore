@@ -39,8 +39,9 @@ public class ImageServiceImpl implements ImageService {
     }
 
     @Override
-    public void rewrite(String name, MultipartFile file) {
+    public String save(String name, MultipartFile file) {
         saveFile(name, file);
+        return name;
     }
 
     private String saveFile(String filename, MultipartFile file) {

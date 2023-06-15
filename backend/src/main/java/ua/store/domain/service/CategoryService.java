@@ -1,17 +1,18 @@
 package ua.store.domain.service;
 
 import ua.store.domain.model.Category;
+import ua.store.web.dto.CategoryDTO;
 
 import java.util.List;
 
 public interface CategoryService {
-    List<Category> findAll();
+    List<CategoryDTO> findAll();
 
-    Category findById(int id);
+    CategoryDTO findById(int id);
 
-    Category save(Category category);
+    CategoryDTO save(CategoryDTO category);
 
-    Category update(Category category, int id);
+    CategoryDTO update(CategoryDTO category, int id);
 
     boolean delete(int id);
 }

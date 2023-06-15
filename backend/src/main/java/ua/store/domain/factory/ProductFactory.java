@@ -2,16 +2,16 @@ package ua.store.domain.factory;
 
 import org.springframework.stereotype.Service;
 import ua.store.domain.model.Product;
-import ua.store.domain.service.CategoryService;
+import ua.store.domain.repository.CategoryRepository;
 import ua.store.web.dto.ProductDTORequest;
 
 @Service
 public class ProductFactory {
 
-    private final CategoryService categoryService;
+    private final CategoryRepository categoryRepository;
 
-    public ProductFactory(CategoryService categoryService) {
-        this.categoryService = categoryService;
+    public ProductFactory(CategoryRepository categoryRepository) {
+        this.categoryRepository = categoryRepository;
     }
 
     public Product fromDto(ProductDTORequest productDTO) {
@@ -20,22 +20,21 @@ public class ProductFactory {
                 .name(productDTO.getName())
                 .description(productDTO.getDescription())
                 .price(productDTO.getPrice())
-                .category(categoryService.findById(productDTO.getCategoryId()))
-                .imagePath(productDTO.getImageName())
+                .category(categoryRepository.findById(productDTO.getCategoryId()).orElseThrow())
+                .imagePath(productDTO.getImagePath())
                 .disabled(productDTO.isDisabled())
                 .build();
     }
 
-   /* public ProductDTOResponse toDto(Product product) {
-        ProductDTOResponse dtoResponse = new ProductDTOResponse();
-        dtoResponse.setId(product.getId());
-        dtoResponse.setName(product.getName());
-        dtoResponse.setDescription(product.getDescription());
-        dtoResponse.setCategory(product.getCategory());
-        dtoResponse.setDisabled(product.isDisabled());
-        dtoResponse.setImagePath(product.getImagePath());
-        dtoResponse.setPrice(product.getPrice());
-        dtoResponse.setReviews(product.getReviews());
-        return dtoResponse;
-    }*/
+    public ProductDTORequest toDto(Product product) {
+        return ProductDTORequest.builder()
+                .id(product.getId())
+                .categoryId(product.getCategory().getId())
+                .description(product.getDescription())
+                .disabled(product.isDisabled())
+                .imagePath(product.getImagePath())
+                .price(product.getPrice())
+                .name(product.getName())
+                .build();
+    }
 }
