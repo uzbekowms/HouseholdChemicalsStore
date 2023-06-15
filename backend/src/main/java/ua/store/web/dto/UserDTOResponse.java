@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import ua.store.domain.model.Role;
 
 @Data
 @Builder
@@ -16,4 +17,5 @@ public class UserDTOResponse {
     private String patronymic;
     private String phone;
     private String email;
+    private Role role;
 }
