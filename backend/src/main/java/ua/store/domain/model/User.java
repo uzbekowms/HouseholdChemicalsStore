@@ -31,6 +31,7 @@ public class User implements UserDetails {
 
     private String phone;
 
+    @Column(unique=true)
     private String email;
 
     private String password;
@@ -38,6 +39,7 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "owner")
     private List<Order> orders;
 
+    @Enumerated(EnumType.STRING)
     private Role role;
 
     @Override
