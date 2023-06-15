@@ -69,6 +69,7 @@
 
           <div class="flex flex-col w-full m-auto justify-center">
             <div
+              @click="addToBasket(product.id)"
               class="py-4 my-4 justify-center gap-4 group routerlink flex flex-row items-center cursor-pointer"
             >
               <button class="">Додати в кошик</button>
@@ -84,6 +85,26 @@
     </div>
   </div>
 </template>
+
+<script>
+export default {
+  methods: {
+    addToBasket(id) {
+      const userBasket = localStorage.getItem("userBasket");
+      let parsedBasket = userBasket ? JSON.parse(userBasket) : [];
+
+      const index = parsedBasket.indexOf(id);
+      if (index === -1) {
+        parsedBasket.push(id);
+      } else {
+        parsedBasket.splice(index, 1);
+      }
+
+      localStorage.setItem("userBasket", JSON.stringify(parsedBasket));
+    },
+  },
+};
+</script>
 
 <script setup>
 import { onMounted } from "vue";

@@ -1,31 +1,35 @@
 <template>
   <div
+    v-for="product in products"
+    :key="product.id"
     class="flex flex-row justify-between bg-white p-6 bg-opacity-70 backdrop-filter backdrop-blur-lg rounded-3xl mb-12"
   >
     <div class="flex w-auto flex-row p-4 gap-24 border-emerald-400">
       <div>
         <img
           class="m-4 h-32 rounded-3xl"
-          src="../../assets/pagesimages/finish.jpg"
+          :src="'http://localhost:8001/api/v1/images/' + product.imagePath"
           alt=""
         />
       </div>
 
       <div class="flex flex-col text-neutral-700">
         <router-link
-          :to="{ name: 'ProductPage' }"
+          :to="{ name: 'ProductPage', params: { id: product.id } }"
           class="duration-300 hover:text-neutral-500 break-word font-bold text-4xl text-neutral-700"
         >
-          Finish 3 упаковки XL Pack
+          {{ product.name }}
         </router-link>
 
-        <p class="mt-2 text-2xl text-blue-500 font-bold">399₴</p>
+        <p class="mt-2 text-2xl text-blue-500 font-bold">
+          {{ product.price }}₴
+        </p>
 
         <div class="group cursor-pointer">
           <p
             class="group-hover:text-emerald-800 duration-300 font-bold text-emerald-400 py-4 rounded-xl"
           >
-            Миючі засоби
+            {{ product.category.name }}
           </p>
         </div>
       </div>
@@ -52,7 +56,7 @@ import { onMounted } from "vue";
 
 import restProduct from "../../composables/product";
 
-const { getProducts } = restProduct();
+const { getProducts, products } = restProduct();
 
 onMounted(() => {
   getProducts();

@@ -8,11 +8,13 @@
           class="flex mx-12 w-auto items-center align-baseline justify-center flex-col gap-2"
         >
           <div
+            v-for="product in products"
+            :key="product.id"
             class="w-full justify-center relative cursor-pointer flex p-4 group"
           >
             <img
               class="w-full block rounded-2xl"
-              src="../../assets/pagesimages/finish.jpg"
+              :src="'http://localhost:8001/api/v1/images/' + product.imagePath"
               alt=""
             />
 
@@ -22,27 +24,29 @@
               <p
                 class="text-white font-bold px-4 py-2 max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl"
               >
-                Короче тут буде просто опис і все
+                {{ product.description }}
               </p>
+            </div>
+            <div class="flex flex-col text-neutral-700">
+              <router-link
+                :to="{ name: 'ProductPage' }"
+                class="duration-300 hover:text-neutral-500 break-word font-bold text-4xl text-neutral-700"
+              >
+                Finish 3 упаковки XL Pack
+              </router-link>
+              <p class="mt-2 text-4xl text-blue-500 font-bold">
+                {{ product.price }}₴
+              </p>
+              <div class="group cursor-pointer">
+                <p
+                  class="group-hover:text-emerald-800 my-2 duration-300 font-bold text-emerald-600 rounded-xl"
+                >
+                  {{ product.category.name }}
+                </p>
+              </div>
             </div>
           </div>
 
-          <div class="flex flex-col text-neutral-700">
-            <router-link
-              :to="{ name: 'ProductPage' }"
-              class="duration-300 hover:text-neutral-500 break-word font-bold text-4xl text-neutral-700"
-            >
-              Finish 3 упаковки XL Pack
-            </router-link>
-            <p class="mt-2 text-4xl text-blue-500 font-bold">399₴</p>
-            <div class="group cursor-pointer">
-              <p
-                class="group-hover:text-emerald-800 my-2 duration-300 font-bold text-emerald-600 rounded-xl"
-              >
-                Миючі засоби
-              </p>
-            </div>
-          </div>
           <div class="flex flex-col w-full m-auto justify-center">
             <div
               class="mb-4 justify-center gap-4 group routerlink flex flex-row items-center cursor-pointer"
@@ -87,11 +91,17 @@
             >Вибір бажаної категорії</label
           >
           <select
-            name=""
-            id=""
-            class="h-12 rounded-xl font-medium cursor-pointer border-2 border-emerald-500"
+            v-model="category_id"
+            class="h-16 rounded-xl font-medium cursor-pointer border-2 shadow-xl border-emerald-500"
+            @change="getProductsByCategoryId(category_id)"
           >
-            <option value="">Миючі засоби</option>
+            <option
+              v-for="category in categories"
+              :value="category.id"
+              :key="category.id"
+            >
+              {{ category.name }}
+            </option>
           </select>
         </div>
         <div class="flex flex-row justify-evenly pt-6">
@@ -112,7 +122,19 @@
   </div>
   {{ product }}
 </template>
+<script setup>
+import restCategory from "../../composables/category";
+import { onMounted, ref } from "vue";
+import restProduct from "../../composables/product";
+const { getCategories, categories } = restCategory();
 
+const { getProductsByCategoryId, products } = restProduct();
+const category_id = ref(1);
+onMounted(() => {
+  getProductsByCategoryId(category_id.value);
+  getCategories();
+});
+</script>
 <script>
 import VueSlider from "vue-slider-component";
 import "vue-slider-component/theme/default.css";
