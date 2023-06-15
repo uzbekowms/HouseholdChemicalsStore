@@ -14,10 +14,13 @@ public class UserFactory {
                 .id(user.getId())
                 .name(user.getName())
                 .surname(user.getSurname())
+                .patronymic(user.getPatronymic())
+                .phone(user.getPhone())
+                .email(user.getEmail())
                 .build();
     }
 
-    public User fromDto(RegisterRequest user){
+    public User fromDto(RegisterRequest user) {
         return User.builder()
                 .id(user.getId())
                 .name(user.getName())
