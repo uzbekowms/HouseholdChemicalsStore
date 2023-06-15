@@ -32,7 +32,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .patronymic(request.getPatronymic())
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
-                .role(Role.USER)
+                .role(Role.ROLE_USER)
                 .build();
         userRepository.save(user);
         String jwtToken = jwtService.generateToken(user);
