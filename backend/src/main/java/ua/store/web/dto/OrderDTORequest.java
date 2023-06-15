@@ -5,16 +5,13 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
 import java.util.List;
 
 @Data
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class OrderDTO {
+@Builder
+public class OrderDTORequest {
     private int id;
-    private List<OrderProductDTOResponse> products;
-    private Date timeOfOrder;
-    private OrderStatusDTO status;
+    private List<Integer> products;
 }
