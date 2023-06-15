@@ -36,6 +36,10 @@ public class ProductServiceImpl implements ProductService {
         return repository.findAll(pageable, categoryId, search).stream().toList();
     }
 
+    @Override
+    public List<Product> findAll(Pageable pageable, String search) {
+        return repository.findAll(pageable, search).stream().toList();
+    }
 
 
     @Override
