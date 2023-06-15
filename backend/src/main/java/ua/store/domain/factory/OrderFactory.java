@@ -3,7 +3,6 @@ package ua.store.domain.factory;
 import org.springframework.stereotype.Component;
 import ua.store.domain.model.Order;
 import ua.store.domain.repository.OrderProductRepository;
-import ua.store.domain.repository.ProductRepository;
 import ua.store.web.dto.OrderDTORequest;
 import ua.store.web.dto.OrderDTOResponse;
 

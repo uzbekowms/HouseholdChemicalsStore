@@ -21,6 +21,9 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    @ManyToOne()
+    private User owner;
+
     @OneToMany(mappedBy = "order")
     private List<OrderProduct> products;
 
