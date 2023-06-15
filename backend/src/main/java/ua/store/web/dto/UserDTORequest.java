@@ -1,5 +1,6 @@
 package ua.store.web.dto;
 
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
@@ -15,6 +16,7 @@ public class UserDTORequest {
     @NotBlank(message = "Phone cannot be blank")
     private String phone;
     @NotBlank(message = "Email cannot be blank")
+    @Email(message = "Email is invalid")
     private String email;
     @NotBlank(message = "Password cannot be blank")
     private String password;

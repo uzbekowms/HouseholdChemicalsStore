@@ -30,7 +30,11 @@ public class ProductFactory {
         return ProductDTORequest.builder()
                 .id(product.getId())
                 .categoryId(product.getCategory().getId())
-                .
+                .description(product.getDescription())
+                .disabled(product.isDisabled())
+                .imagePath(product.getImagePath())
+                .price(product.getPrice())
+                .name(product.getName())
                 .build();
     }
 }

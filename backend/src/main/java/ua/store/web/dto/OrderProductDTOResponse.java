@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class OrderProductResponse {
-    private ProductDTORequest product;
+public class OrderProductDTOResponse {
+    private ProductDTOResponse product;
     private int count;
 }

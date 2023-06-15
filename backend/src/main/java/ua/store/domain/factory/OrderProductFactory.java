@@ -5,7 +5,7 @@ import ua.store.domain.model.OrderProduct;
 import ua.store.domain.repository.OrderRepository;
 import ua.store.domain.repository.ProductRepository;
 import ua.store.web.dto.OrderProductDTORequest;
-import ua.store.web.dto.OrderProductResponse;
+import ua.store.web.dto.OrderProductDTOResponse;
 
 @Component
 public class OrderProductFactory {
@@ -19,7 +19,7 @@ public class OrderProductFactory {
         this.productFactory = productFactory;
     }
 
-    private OrderProduct fromDto(OrderProductDTORequest productDTO) {
+    public OrderProduct fromDto(OrderProductDTORequest productDTO) {
         return OrderProduct.builder()
                 .id(productDTO.getId())
                 .count(productDTO.getCount())
@@ -28,9 +28,8 @@ public class OrderProductFactory {
                 .build();
     }
 
-    private OrderProductResponse toDto(OrderProduct orderProduct){
-        return OrderProductResponse.builder()
-                .product(productFactory.)
+    public OrderProductDTOResponse toDto(OrderProduct orderProduct){
+        return OrderProductDTOResponse.builder()
                 .build();
     }
 }

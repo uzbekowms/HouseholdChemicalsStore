@@ -14,7 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 public class OrderDTO {
     private int id;
-    private List<OrderProductDTORequest> products;
+    private List<OrderProductDTOResponse> products;
     private Date timeOfOrder;
     private OrderStatusDTO status;
 }
