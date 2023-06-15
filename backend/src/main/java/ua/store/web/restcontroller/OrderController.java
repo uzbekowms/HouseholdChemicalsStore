@@ -1,13 +1,13 @@
 package ua.store.web.restcontroller;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ua.store.domain.service.OrderService;
 import ua.store.web.dto.OrderDTORequest;
 import ua.store.web.dto.OrderDTOResponse;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/orders")
@@ -20,7 +20,13 @@ public class OrderController {
     }
 
     @PostMapping
-    public ResponseEntity<OrderDTOResponse> order(@RequestBody OrderDTORequest order){
-        return ResponseEntity.ok(orderService.makeOrder(order));
+    public ResponseEntity<OrderDTOResponse> order(@RequestBody OrderDTORequest order) {
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(orderService.makeOrder(order));
+    }
+
+    @GetMapping()
+    public ResponseEntity<List<OrderDTOResponse>> getAllOrders() {
+        return ResponseEntity.ok(orderService.findAll());
     }
 }
