@@ -1,11 +1,17 @@
-package ua.store.web.dto;
+package ua.store.web.dto.auth;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
-public class UserDTORequest {
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class RegisterRequest {
     private int id;
     @NotBlank(message = "Name cannot be blank")
     private String name;
