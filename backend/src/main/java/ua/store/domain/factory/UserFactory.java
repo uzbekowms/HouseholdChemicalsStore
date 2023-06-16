@@ -17,6 +17,7 @@ public class UserFactory {
                 .patronymic(user.getPatronymic())
                 .phone(user.getPhone())
                 .email(user.getEmail())
+                .role(user.getRole())
                 .build();
     }
 
