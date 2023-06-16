@@ -34,61 +34,75 @@
       <div
         class="mx-12 w-auto justify-evenly pt-12 flex-col gap-4 border-emerald-400 border-2 rounded-3xl bg-white bg-opacity-70 backdrop-filter backdrop-blur-lg p-4"
       >
-        <div
-          class="flex w-auto flex-row p-4 gap-12 border-b-2 border-emerald-400"
-        >
-          <div>
-            <img
-              class="m-4 h-32 rounded-3xl"
-              src="../../assets/pagesimages/finish.jpg"
-              alt=""
-            />
-          </div>
-          <div
-            class="flex flex-col text-neutral-700"
-            v-for="product in userBasketProducts"
-            :key="product"
-          >
-            {{ product }}
-            <router-link
-              :to="{ name: 'ProductPage' }"
-              class="duration-300 hover:text-neutral-500 break-word font-bold text-4xl text-neutral-700"
-            >
-              Finish 3 упаковки XL Pack
-            </router-link>
-            <p class="mt-2 text-2xl text-blue-500 font-bold">399₴</p>
-            <div class="group cursor-pointer">
-              <p
-                class="group-hover:text-emerald-800 duration-300 font-bold text-emerald-400 py-4 rounded-xl"
-              >
-                Миючі засоби
-              </p>
+        <div class="flex flex-row w-full p-4 gap-12">
+          <div class="flex flex-col">
+            <div v-if="userBasketProducts.length == 0">
+              <p class="font-black text-4xl text-neutral-600">Кошик порожній</p>
             </div>
-          </div>
-          <div
-            class="flex flex-row gap-4 items-center font-bold text-neutral-700 text-6xl"
-          >
-            <h2 class=""><span class="text-3xl">x</span>2</h2>
+
             <div
-              class="flex gap-2 flex-col justify-center items-center text-4xl"
+              class="flex flex-col text-neutral-700"
+              v-for="product in userBasketProducts"
+              :key="product"
             >
-              <p
-                class="text-emerald-500 hover:bg-emerald-500 rounded-full p-2 duration-300 cursor-pointer hover:text-white"
-              >
-                +
-              </p>
-              <p
-                class="text-red-500 hover:bg-red-500 rounded-full p-2 duration-300 cursor-pointer hover:text-white"
-              >
-                -
-              </p>
+              <div class="flex flex-row items-center gap-8">
+                <div class="block w-32">
+                  <img
+                    class=""
+                    :src="
+                      'http://localhost:8001/api/v1/images/' + product.imagePath
+                    "
+                    alt=""
+                  />
+                </div>
+                <router-link
+                  :to="{ name: 'ProductPage', params: { id: product.id } }"
+                  class="duration-300 hover:text-neutral-500 break-word font-bold text-4xl text-neutral-700"
+                >
+                  {{ product.name }}
+                </router-link>
+                <p class="mt-2 text-2xl text-blue-500 font-bold">
+                  {{ product.price }}₴
+                </p>
+                <div class="group cursor-pointer">
+                  <p
+                    class="group-hover:text-emerald-800 duration-300 font-bold text-emerald-400 py-4 rounded-xl"
+                  >
+                    {{ product.category.name }}
+                  </p>
+                </div>
+
+                <div
+                  class="flex flex-row gap-4 items-center font-bold text-neutral-700 text-6xl"
+                >
+                  <h2 class="">
+                    <span class="text-3xl">x</span>{{ product.count }}
+                  </h2>
+                  <div
+                    class="flex gap-2 flex-col justify-center items-center text-4xl"
+                  >
+                    <p
+                      @click="incrementCount(product.product_id)"
+                      class="text-emerald-500 hover:bg-emerald-500 rounded-full p-2 duration-300 cursor-pointer hover:text-white"
+                    >
+                      +
+                    </p>
+                    <p
+                      @click="decrementCount(product.product_id)"
+                      class="text-red-500 hover:bg-red-500 rounded-full p-2 duration-300 cursor-pointer hover:text-white"
+                    >
+                      -
+                    </p>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
-
       <div
         class="flex flex-col top-0 w-1/3 justify-start align-top border-emerald-400 p-12 border-2 rounded-3xl bg-white bg-opacity-70 backdrop-filter backdrop-blur-lg"
+        v-if="userBasketProducts.length != 0"
       >
         <div
           class="py-4 my-4 justify-center gap-4 group routerlink flex flex-row items-center cursor-pointer"
@@ -153,23 +167,63 @@ import restUser from "@/composables/user";
 import restProduct from "@/composables/product";
 
 const { logout, userLogged } = restAuth();
-const { getProduct } = restProduct();
+const { getProducts, products } = restProduct();
 const { getUser, user } = restUser();
 const userBasket = ref([]);
 const userBasketProducts = ref([]);
 
 const getBasket = async () => {
   userBasket.value = localStorage.getItem("userBasket");
+
   userBasket.value = userBasket.value ? JSON.parse(userBasket.value) : [];
+  console.log(userBasket.value);
 
-  await Promise.all(
-    userBasket.value.map(async (product_id) => {
-      let product = await getProduct(product_id);
-      userBasketProducts.value.push(product);
-    })
+  await getProducts();
+
+  for (const prod of userBasket.value) {
+    let product = products.value.find((p) => p.id === prod.product_id);
+    if (product) {
+      userBasketProducts.value.push({ ...product, ...prod });
+    } else {
+      console.log(`Нема продукту з таким айді: ${prod.product_id}`);
+    }
+  }
+};
+
+const incrementCount = async (product_id) => {
+  const product = userBasketProducts.value.find(
+    (prod) => prod.product_id === product_id
   );
+  if (product) {
+    product.count += 1;
+  }
 
-  console.log(userBasketProducts.value);
+  updateUserBasket();
+};
+
+const decrementCount = async (product_id) => {
+  const product = userBasketProducts.value.find(
+    (prod) => prod.product_id === product_id
+  );
+  if (product) {
+    if (product.count > 1) {
+      product.count -= 1;
+    } else {
+      const index = userBasketProducts.value.findIndex(
+        (prod) => prod.product_id === product_id
+      );
+      if (index !== -1) {
+        userBasketProducts.value.splice(index, 1);
+      }
+    }
+  }
+
+  updateUserBasket();
+};
+
+const updateUserBasket = () => {
+  userBasket.value = JSON.stringify(userBasketProducts.value);
+  localStorage.setItem("userBasket", userBasket.value);
 };
 
 onMounted(() => {
@@ -177,4 +231,10 @@ onMounted(() => {
   userLogged();
   getUser();
 });
+</script>
+
+<script>
+export default {
+  methods: {},
+};
 </script>

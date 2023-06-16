@@ -13,10 +13,7 @@
         :to="{ name: 'Profile' }"
         class="group cursor-pointer flex items-center gap-4 routerlink"
       >
-        <div class="">
-          Власний аккаунт<br />
-          Кошик: {{ basketItemCount }}
-        </div>
+        <div class="">Власний аккаунт<br /></div>
         <img
           class="w-10 h-10 group-hover:bg-neutral-700 p-2 rounded-lg transition duration-300"
           :src="userIcon"
