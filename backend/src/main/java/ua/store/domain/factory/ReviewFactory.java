@@ -9,6 +9,8 @@ import ua.store.domain.repository.UserRepository;
 import ua.store.web.dto.ReviewDTORequest;
 import ua.store.web.dto.ReviewDTOResponse;
 
+import java.util.Date;
+
 @Component
 @RequiredArgsConstructor
 public class ReviewFactory {
@@ -23,6 +25,8 @@ public class ReviewFactory {
                 .id(review.getId())
                 .product(productRepository.findById(review.getProductId()).orElseThrow())
                 .reviewOwner(userRepository.findByEmail(jwtService.extractUsername(review.getJwt())).orElseThrow())
+                .text(review.getText())
+                .timeOfReview(new Date())
                 .build();
     }
 
