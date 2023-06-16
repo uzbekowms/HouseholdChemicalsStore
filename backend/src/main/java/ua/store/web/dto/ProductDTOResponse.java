@@ -19,5 +19,5 @@ public class ProductDTOResponse {
     private CategoryDTO category;
     private String imagePath;
     private boolean disabled;
-    private List<ReviewDTORequest> reviews;
+    private List<ReviewDTOResponse> reviews;
 }

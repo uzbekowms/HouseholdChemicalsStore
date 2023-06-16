@@ -1,5 +1,6 @@
 package ua.store.domain.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -27,6 +28,8 @@ public class Product {
     @Column(name = "image_path")
     private String imagePath;
     private boolean disabled;
-    @OneToMany(mappedBy = "product")
+
+    @OneToMany(mappedBy = "product",cascade = CascadeType.ALL)
+    @JsonIgnoreProperties("product")
     private List<Review> reviews;
 }
