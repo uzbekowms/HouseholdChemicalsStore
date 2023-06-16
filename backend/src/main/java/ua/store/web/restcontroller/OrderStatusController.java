@@ -1,6 +1,7 @@
 package ua.store.web.restcontroller;
 
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,13 +12,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/order_statuses")
+@RequiredArgsConstructor
 public class OrderStatusController {
 
     private final OrderStatusService orderStatusService;
-
-    public OrderStatusController(OrderStatusService orderStatusService) {
-        this.orderStatusService = orderStatusService;
-    }
 
     @GetMapping
     public ResponseEntity<List<OrderStatusDTO>> getAllStatuses() {

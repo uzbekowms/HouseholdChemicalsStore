@@ -1,6 +1,7 @@
 package ua.store.domain.service.impl;
 
 import jakarta.persistence.EntityNotFoundException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ua.store.domain.model.Category;
 import ua.store.domain.repository.CategoryRepository;
@@ -11,15 +12,11 @@ import ua.store.domain.factory.CategoryFactory;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class CategoryServiceImpl implements CategoryService {
 
     private final CategoryRepository categoryRepository;
     private final CategoryFactory categoryFactory;
-
-    public CategoryServiceImpl(CategoryRepository categoryRepository, CategoryFactory categoryFactory) {
-        this.categoryRepository = categoryRepository;
-        this.categoryFactory = categoryFactory;
-    }
 
     @Override
     public List<CategoryDTO> findAll() {

@@ -13,5 +13,5 @@ import java.util.List;
 @Builder
 public class OrderDTORequest {
     private int id;
-    private List<Integer> products;
+    private List<OrderProductDTORequest> products;
 }

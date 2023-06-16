@@ -1,23 +1,20 @@
 package ua.store.domain.factory;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import ua.store.domain.model.Order;
 import ua.store.domain.repository.OrderProductRepository;
 import ua.store.web.dto.OrderDTORequest;
 import ua.store.web.dto.OrderDTOResponse;
+import ua.store.web.dto.OrderProductDTORequest;
 
 @Component
+@RequiredArgsConstructor
 public class OrderFactory {
 
     private final OrderStatusFactory orderStatusFactory;
     private final OrderProductFactory orderProductFactory;
     private final OrderProductRepository orderProductRepository;
-
-    public OrderFactory(OrderStatusFactory orderStatusFactory, OrderProductFactory orderProductFactory, OrderProductRepository orderProductRepository) {
-        this.orderStatusFactory = orderStatusFactory;
-        this.orderProductFactory = orderProductFactory;
-        this.orderProductRepository = orderProductRepository;
-    }
 
     public OrderDTOResponse toDto(Order order) {
         return OrderDTOResponse.builder()
@@ -28,10 +25,12 @@ public class OrderFactory {
                 .build();
     }
 
-    public Order fromDto(OrderDTORequest order){
+    public Order fromDto(OrderDTORequest order) {
         return Order.builder()
                 .id(order.getId())
-                .products(orderProductRepository.findAllById(order.getProducts()))
+                .products(orderProductRepository.findAllById(order.getProducts()
+                        .stream()
+                        .map(OrderProductDTORequest::getProductId).toList()))
                 .build();
     }
 }
