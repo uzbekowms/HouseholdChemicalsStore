@@ -29,7 +29,7 @@ public class Review {
     @JsonIgnoreProperties({"password", "orders", "role", "authorities", "phone", "accountNonExpired", "credentialsNonExpired", "accountNonLocked", "enabled"})
     private User reviewOwner;
 
-    @Column(name = "time_of_review", insertable = false, updatable = false)
+    @Column(name = "time_of_review", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     @Temporal(TemporalType.TIMESTAMP)
     private Date timeOfReview;
 
