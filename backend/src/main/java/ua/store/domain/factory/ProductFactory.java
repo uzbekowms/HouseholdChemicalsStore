@@ -13,6 +13,7 @@ public class ProductFactory {
 
     private final CategoryRepository categoryRepository;
     private final CategoryFactory categoryFactory;
+    private final ReviewFactory reviewFactory;
 
 
     public Product fromDto(ProductDTORequest productDTO) {
@@ -36,6 +37,7 @@ public class ProductFactory {
                 .imagePath(product.getImagePath())
                 .price(product.getPrice())
                 .name(product.getName())
+                .reviews(product.getReviews().stream().map(reviewFactory::toDto).toList())
                 .build();
     }
 }
