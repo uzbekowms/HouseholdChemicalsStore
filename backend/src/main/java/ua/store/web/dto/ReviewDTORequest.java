@@ -13,6 +13,6 @@ import lombok.NoArgsConstructor;
 public class ReviewDTORequest {
     private int id;
     private int productId;
-    private int userId;
     private String text;
+    private String jwt;
 }

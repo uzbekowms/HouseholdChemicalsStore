@@ -2,6 +2,7 @@ package ua.store.domain.factory;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import ua.store.domain.jwt.JwtService;
 import ua.store.domain.model.Review;
 import ua.store.domain.repository.ProductRepository;
 import ua.store.domain.repository.UserRepository;
@@ -15,12 +16,13 @@ public class ReviewFactory {
     private final ProductRepository productRepository;
     private final UserRepository userRepository;
     private final UserFactory userFactory;
+    private final JwtService jwtService;
 
     public Review fromDto(ReviewDTORequest review) {
         return Review.builder()
                 .id(review.getId())
                 .product(productRepository.findById(review.getProductId()).orElseThrow())
-                .reviewOwner(userRepository.findById(review.getUserId()).orElseThrow())
+                .reviewOwner(userRepository.findByEmail(jwtService.extractUsername(review.getJwt())).orElseThrow())
                 .build();
     }
 
