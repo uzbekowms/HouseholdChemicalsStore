@@ -31,11 +31,14 @@ public class ProductController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Product>> getAllProductsByPage(@RequestParam(required = false, defaultValue = "1", value = "page") int page,
+    public ResponseEntity<List<Product>> getAllProductsByPage(@RequestParam(required = false, defaultValue = "0", value = "page") int page,
                                                               @RequestParam(required = false, defaultValue = "20", value = "count") int count,
-                                                              //@RequestParam(required = false, defaultValue = "", value = "category_id") int categoryId,
-                                                              @RequestParam(required = false, defaultValue = "", value = "search") String search) {
-        return ResponseEntity.ok(productService.findAll(PageRequest.of(page, count)/*, categoryId*/, search));
+                                                              @RequestParam(required = false, value = "category_id") Integer categoryId,
+                                                              @RequestParam(required = false, value = "search") String search) {
+        System.out.println(categoryId == null);
+        System.out.println(search == null);
+        System.out.println(search);
+        return ResponseEntity.ok(productService.findAll(PageRequest.of(page, count), categoryId, search));
     }
 
     @PostMapping

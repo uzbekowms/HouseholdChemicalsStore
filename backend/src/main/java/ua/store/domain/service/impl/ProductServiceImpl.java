@@ -1,5 +1,6 @@
 package ua.store.domain.service.impl;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -28,13 +29,13 @@ public class ProductServiceImpl implements ProductService {
 
 
     @Override
-    public List<Product> findAll(Pageable pageable, int categoryId, String search) {
-        return repository.findAll(pageable, categoryId, search).stream().toList();
+    public List<Product> findAll(Pageable pageable, Integer categoryId, String search) {
+        return repository.findAll(pageable, search, categoryId).stream().toList();
     }
 
     @Override
     public List<Product> findAll(Pageable pageable, String search) {
-        return repository.findAll(pageable, search).stream().toList();
+        return null;//repository.findAll(pageable, search, 0).stream().toList();
     }
 
 
