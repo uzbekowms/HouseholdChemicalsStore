@@ -8,21 +8,24 @@ export default function restProduct() {
   const errors = ref({});
 
   const getProducts = async () => {
-    const response = await axios.get("http://localhost:8001/api/v1/products");
+    const response = await axios.get(
+      "http://localhost:8001/api/v1/products/all"
+    );
     products.value = response.data;
   };
 
   const getProductsByPageNumber = async (page_number) => {
     const response = await axios.get(
-      "http://localhost:8001/api/v1/products?page=" + page_number
+      "http://localhost:8001/api/v1/products/all?page=" + page_number
     );
     products.value = response.data.data;
   };
 
   const getProductsByCategoryId = async (category_id) => {
     const response = await axios.get(
-      "http://localhost:8001/api/v1/products?category=" + category_id
+      "http://localhost:8001/api/v1/products/all?category=" + category_id
     );
+    console.log(category_id);
     products.value = response.data.data;
   };
 
@@ -31,7 +34,7 @@ export default function restProduct() {
     category_id
   ) => {
     const response = await axios.get(
-      "http://localhost:8001/api/v1/products?category=" +
+      "http://localhost:8001/api/v1/products/all?category=" +
         category_id +
         "&page=" +
         page_number
@@ -45,7 +48,7 @@ export default function restProduct() {
     category_id
   ) => {
     const response = await axios.get(
-      "http://localhost:8001/api/v1/products?search=" +
+      "http://localhost:8001/api/v1/products/all?search=" +
         name +
         "&category=" +
         category_id +
@@ -57,7 +60,7 @@ export default function restProduct() {
 
   const getProductsByNameAndPageNumber = async (name, page_number) => {
     const response = await axios.get(
-      "http://localhost:8001/api/v1/products?search=" +
+      "http://localhost:8001/api/v1/products/all?search=" +
         name +
         "&page=" +
         page_number
@@ -75,7 +78,7 @@ export default function restProduct() {
   const updateProduct = async (id) => {
     try {
       await axios.put(
-        "http://localhost:8001/api/v1/products/" + id,
+        "http://localhost:8001/api/v1/products/all/" + id,
         product.value
       );
     } catch (error) {
@@ -91,7 +94,7 @@ export default function restProduct() {
       formData.append("product[]", data);
       console.log(formData);
 
-      await axios.post("http://localhost:8001/api/v1/products", formData);
+      await axios.post("http://localhost:8001/api/v1/products/all", formData);
     } catch (error) {
       if (error.response.status === 422) {
         errors.value = error.response.data.errors;
@@ -103,7 +106,7 @@ export default function restProduct() {
     if (!window.confirm("Видалити продукт?")) {
       return;
     }
-    await axios.delete("http://localhost:8001/api/v1/products/" + id);
+    await axios.delete("http://localhost:8001/api/v1/products/all/" + id);
   };
 
   return {
