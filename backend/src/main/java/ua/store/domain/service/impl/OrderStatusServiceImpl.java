@@ -1,6 +1,7 @@
 package ua.store.domain.service.impl;
 
 import jakarta.persistence.EntityNotFoundException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ua.store.domain.factory.OrderStatusFactory;
 import ua.store.domain.model.OrderStatus;
@@ -11,14 +12,11 @@ import ua.store.web.dto.OrderStatusDTO;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class OrderStatusServiceImpl implements OrderStatusService {
     private final OrderStatusRepository repository;
     private final OrderStatusFactory factory;
 
-    public OrderStatusServiceImpl(OrderStatusRepository repository, OrderStatusFactory factory) {
-        this.repository = repository;
-        this.factory = factory;
-    }
 
     @Override
     public List<OrderStatusDTO> findAll() {

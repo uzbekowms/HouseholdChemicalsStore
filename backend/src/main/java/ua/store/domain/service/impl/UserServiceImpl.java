@@ -9,7 +9,6 @@ import ua.store.domain.repository.UserRepository;
 import ua.store.domain.service.UserService;
 import ua.store.web.dto.UserDTOResponse;
 
-import java.net.http.HttpRequest;
 
 @Service
 @RequiredArgsConstructor

@@ -1,5 +1,6 @@
 package ua.store.web.restcontroller;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -11,12 +12,10 @@ import java.io.FileNotFoundException;
 
 @RestController
 @RequestMapping("/images")
+@RequiredArgsConstructor
 public class ImageController {
     private final ImageService imageService;
 
-    public ImageController(ImageService imageService) {
-        this.imageService = imageService;
-    }
 
     @GetMapping(value = "/{name:.+}")
     public ResponseEntity<Resource> getImage(@PathVariable String name) throws FileNotFoundException {

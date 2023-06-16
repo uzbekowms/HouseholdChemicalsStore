@@ -1,6 +1,7 @@
 package ua.store.domain.service.impl;
 
 import jakarta.persistence.EntityNotFoundException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import ua.store.domain.factory.ProductFactory;
@@ -13,17 +14,12 @@ import ua.store.web.dto.ProductDTORequest;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository repository;
     private final ProductFactory factory;
     private final ImageService imageService;
-
-    public ProductServiceImpl(ProductRepository repository, ProductFactory factory, ImageService imageService) {
-        this.repository = repository;
-        this.factory = factory;
-        this.imageService = imageService;
-    }
 
     @Override
     public List<Product> findAll() {
