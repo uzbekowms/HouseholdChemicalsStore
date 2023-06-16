@@ -1,18 +1,19 @@
 package ua.store.domain.factory;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ua.store.domain.model.Product;
 import ua.store.domain.repository.CategoryRepository;
 import ua.store.web.dto.ProductDTORequest;
+import ua.store.web.dto.ProductDTOResponse;
 
 @Service
+@RequiredArgsConstructor
 public class ProductFactory {
 
     private final CategoryRepository categoryRepository;
+    private final CategoryFactory categoryFactory;
 
-    public ProductFactory(CategoryRepository categoryRepository) {
-        this.categoryRepository = categoryRepository;
-    }
 
     public Product fromDto(ProductDTORequest productDTO) {
         return Product.builder()
@@ -26,10 +27,10 @@ public class ProductFactory {
                 .build();
     }
 
-    public ProductDTORequest toDto(Product product) {
-        return ProductDTORequest.builder()
+    public ProductDTOResponse toDto(Product product) {
+        return ProductDTOResponse.builder()
                 .id(product.getId())
-                .categoryId(product.getCategory().getId())
+                .category(categoryFactory.toDto(product.getCategory()))
                 .description(product.getDescription())
                 .disabled(product.isDisabled())
                 .imagePath(product.getImagePath())

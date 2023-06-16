@@ -10,8 +10,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class OrderProductDTORequest {
-    private int id;
-    private int orderId;
     private int productId;
     private int count;
 }

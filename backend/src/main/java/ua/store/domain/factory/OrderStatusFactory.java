@@ -1,10 +1,11 @@
 package ua.store.domain.factory;
 
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import ua.store.domain.model.OrderStatus;
 import ua.store.web.dto.OrderStatusDTO;
 
-@Service
+@Component
 public class OrderStatusFactory {
 
     public OrderStatus fromDto(OrderStatusDTO order) {
