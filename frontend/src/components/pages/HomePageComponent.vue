@@ -90,12 +90,16 @@
 export default {
   methods: {
     addToBasket(id) {
+      const productToBasket = {
+        product_id: id,
+        count: 1,
+      };
       const userBasket = localStorage.getItem("userBasket");
       let parsedBasket = userBasket ? JSON.parse(userBasket) : [];
 
       const index = parsedBasket.indexOf(id);
       if (index === -1) {
-        parsedBasket.push(id);
+        parsedBasket.push(productToBasket);
       } else {
         parsedBasket.splice(index, 1);
       }
