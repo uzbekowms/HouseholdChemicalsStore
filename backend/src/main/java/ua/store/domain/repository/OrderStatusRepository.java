@@ -6,4 +6,8 @@ import ua.store.domain.model.OrderStatus;
 
 @Repository
 public interface OrderStatusRepository extends JpaRepository<OrderStatus, Integer> {
+
+    OrderStatus findByName(String name);
+
+    boolean existsByName(String name);
 }

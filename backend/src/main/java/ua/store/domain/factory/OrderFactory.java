@@ -7,6 +7,8 @@ import ua.store.domain.jwt.JwtService;
 import ua.store.domain.model.Order;
 import ua.store.domain.model.OrderStatus;
 import ua.store.domain.repository.OrderProductRepository;
+import ua.store.domain.repository.OrderRepository;
+import ua.store.domain.repository.OrderStatusRepository;
 import ua.store.domain.repository.UserRepository;
 import ua.store.web.dto.OrderDTORequest;
 import ua.store.web.dto.OrderDTOResponse;
@@ -19,6 +21,7 @@ import java.util.Date;
 public class OrderFactory {
 
     private final OrderStatusFactory orderStatusFactory;
+    private final OrderStatusRepository orderStatusRepository;
     private final OrderProductFactory orderProductFactory;
     private final OrderProductRepository orderProductRepository;
     private final UserRepository userRepository;
@@ -38,7 +41,7 @@ public class OrderFactory {
                 .id(order.getId())
                 .timeOfOrder(new Date())
                 .owner(userRepository.findByEmail(jwtService.extractUsername(order.getJwt())).orElseThrow())
-                .status(OrderStatus.builder().name("Ordered").color("green").build())
+                .status(orderStatusRepository.findByName("Ordered"))
                 .products(orderProductRepository.findAllById(order.getProducts()
                         .stream()
                         .map(OrderProductDTORequest::getProductId).toList()))
