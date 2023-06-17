@@ -3,6 +3,7 @@ package ua.store.web.dto;
 
 import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import lombok.Data;
 
@@ -17,7 +18,7 @@ public class Payment {
     @NotBlank(message = "cvv cannot be empty")
     @Pattern(regexp="^\\d{3}$", message = "Cvv is invalid")
     private String cvv;
-    @NotBlank(message = "Expiration date cannot be empty")
+    @NotNull(message = "Expiration date cannot be empty")
     @Future(message = "Card has expired")
     private Date expirationDate;
 
