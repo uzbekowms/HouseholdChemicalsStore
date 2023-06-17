@@ -1,5 +1,6 @@
 package ua.store.web.restcontroller;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -26,7 +27,7 @@ public class OrderController {
     }
 
     @GetMapping()
-    public ResponseEntity<List<OrderDTOResponse>> getAllOrders() {
-        return ResponseEntity.ok(orderService.findAll());
+    public ResponseEntity<List<OrderDTOResponse>> getAllOrders(HttpServletRequest request) {
+        return ResponseEntity.ok(orderService.findAll(request));
     }
 }

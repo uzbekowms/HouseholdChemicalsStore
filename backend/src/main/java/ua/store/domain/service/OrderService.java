@@ -1,8 +1,8 @@
 package ua.store.domain.service;
 
+import jakarta.servlet.http.HttpServletRequest;
 import ua.store.web.dto.OrderDTORequest;
 import ua.store.web.dto.OrderDTOResponse;
-import ua.store.web.dto.Payment;
 
 import java.util.List;
 
@@ -10,5 +10,5 @@ public interface OrderService {
 
     OrderDTOResponse makeOrder(OrderDTORequest order);
 
-    List<OrderDTOResponse> findAll();
+    List<OrderDTOResponse> findAll(HttpServletRequest request);
 }
