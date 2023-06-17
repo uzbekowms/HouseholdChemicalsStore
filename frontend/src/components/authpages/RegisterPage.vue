@@ -69,7 +69,11 @@
                 <input
                   class="w-full px-4 py-4 border-2 border-emerald-500 rounded-xl shadow-2xl transition-colors duration-300 ease-in-out focus:outline-none focus:border-transparent"
                   type="password"
+                  v-model="form.password"
                 />
+                <div v-for="error in errors" :key="error.id">
+                  <p class="text-sm text-red-400">{{ error }}</p>
+                </div>
                 <div class="items-center gap-4 mt-2 flex justify-center">
                   <div @click="signUpUser(form)">
                     <p
@@ -104,7 +108,7 @@
 import { onMounted, reactive } from "vue";
 import restProduct from "../../composables/auth";
 
-const { signUpUser, userLogged } = restProduct();
+const { signUpUser, errors, userLogged } = restProduct();
 const form = reactive({
   name: "",
   surname: "",

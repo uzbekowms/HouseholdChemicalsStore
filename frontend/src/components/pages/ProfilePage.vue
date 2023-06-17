@@ -27,34 +27,40 @@
         </div>
       </div>
     </div>
-
+    <div
+      v-if="userBasketProducts.length == 0"
+      class="w-fit m-auto flex justify-center flex-col border-emerald-400 border-2 rounded-3xl bg-white bg-opacity-70 backdrop-filter backdrop-blur-lg p-4"
+    >
+      <div class="flex m-auto flex-row w-full p-4 gap-12">
+        <div class="flex flex-col">
+          <div>
+            <p class="font-black text-4xl text-neutral-600">Кошик порожній</p>
+          </div>
+        </div>
+      </div>
+    </div>
     <div
       class="gap-4 w-auto m-auto flex flex-row mb-32 items-start align-top top-0"
     >
       <div
+        v-if="userBasketProducts.length != 0"
         class="mx-12 w-auto justify-evenly pt-12 flex-col gap-4 border-emerald-400 border-2 rounded-3xl bg-white bg-opacity-70 backdrop-filter backdrop-blur-lg p-4"
       >
         <div class="flex flex-row w-full p-4 gap-12">
           <div class="flex flex-col">
-            <div v-if="userBasketProducts.length == 0">
-              <p class="font-black text-4xl text-neutral-600">Кошик порожній</p>
-            </div>
-
             <div
               class="flex flex-col text-neutral-700"
               v-for="product in userBasketProducts"
               :key="product"
             >
-              <div class="flex flex-row items-center gap-8">
-                <div class="block w-32">
-                  <img
-                    class=""
-                    :src="
-                      'http://localhost:8001/api/v1/images/' + product.imagePath
-                    "
-                    alt=""
-                  />
-                </div>
+              <div class="grid grid-cols-5 justify-between items-center gap-8">
+                <img
+                  class="w-32 h-32 object-cover"
+                  :src="
+                    'http://localhost:8001/api/v1/images/' + product.imagePath
+                  "
+                  alt=""
+                />
                 <router-link
                   :to="{ name: 'ProductPage', params: { id: product.id } }"
                   class="duration-300 hover:text-neutral-500 break-word font-bold text-4xl text-neutral-700"
@@ -65,11 +71,15 @@
                   {{ product.price }}₴
                 </p>
                 <div class="group cursor-pointer">
-                  <p
-                    class="group-hover:text-emerald-800 duration-300 font-bold text-emerald-400 py-4 rounded-xl"
+                  <router-link
+                    :to="{
+                      name: 'Products',
+                      params: { id: product.category.id },
+                    }"
+                    class="group-hover:text-emerald-800 font-bold text-emerald-400 p-2 rounded-xl"
                   >
                     {{ product.category.name }}
-                  </p>
+                  </router-link>
                 </div>
 
                 <div
@@ -100,6 +110,7 @@
           </div>
         </div>
       </div>
+
       <div
         class="flex flex-col top-0 w-1/3 justify-start align-top border-emerald-400 p-12 border-2 rounded-3xl bg-white bg-opacity-70 backdrop-filter backdrop-blur-lg"
         v-if="userBasketProducts.length != 0"
@@ -107,7 +118,7 @@
         <div
           class="py-4 my-4 justify-center gap-4 group routerlink flex flex-row items-center cursor-pointer"
         >
-          <button class="">ОПЛАТИТИ</button>
+          <router-link class="" :to="{ name: 'Payout' }">ОПЛАТИТИ</router-link>
           <img
             class="w-10 h-10 group-hover:bg-neutral-700 p-2 rounded-lg transition duration-300"
             src="../../assets/icons/basket.png"
@@ -121,40 +132,83 @@
           <img class="h-4" src="../../assets/paysystems/paypal.png" alt="" />
           <img class="h-4" src="../../assets/paysystems/visa.png" alt="" />
         </div>
+        <div>
+          <p class="font-bold text-neutral-400">
+            Сума до сплати: <br /><span class="text-2xl text-neutral-600">
+              {{ sumToPay }}
+            </span>
+          </p>
+        </div>
       </div>
     </div>
     <div>
       <h2 class="font-bold text-2xl text-neutral-700">Історія замовлень</h2>
     </div>
-    <div class="flex flex-row gap-24 mb-48">
-      <div>
-        <img
-          class="m-4 h-32 rounded-3xl"
-          src="../../assets/pagesimages/finish.jpg"
-          alt=""
-        />
-      </div>
-      <div class="flex flex-col text-neutral-700">
-        <router-link
-          :to="{ name: 'ProductPage' }"
-          class="duration-300 hover:text-neutral-500 break-word font-bold text-4xl text-neutral-700"
+    <div class="flex flex-col gap-4 mt-4 mb-32">
+      <div
+        class="flex flex-col justify-between bg-white p-4 rounded-xl"
+        v-for="order in orders"
+        :key="order.id"
+      >
+        <div
+          class="flex flex-row justify-between"
+          v-for="product in order.products"
+          :key="product.id"
         >
-          Finish 3 упаковки XL Pack
-        </router-link>
-        <p class="mt-2 text-2xl text-blue-500 font-bold">399₴</p>
-        <div class="group cursor-pointer">
-          <p
-            class="group-hover:text-emerald-800 duration-300 font-bold text-emerald-400 py-4 rounded-xl"
+          <div>
+            <img
+              class="m-4 h-32 rounded-3xl"
+              :src="
+                'http://localhost:8001/api/v1/images/' +
+                product.product.imagePath
+              "
+              alt=""
+            />
+          </div>
+          <div class="flex flex-col text-neutral-700">
+            <router-link
+              :to="{ name: 'ProductPage', params: { id: product.product.id } }"
+              class="duration-300 hover:text-neutral-500 break-word font-bold text-4xl text-neutral-700"
+            >
+              {{ product.product.name }}
+            </router-link>
+            <p class="mt-2 text-2xl text-blue-500 font-bold">
+              {{ order.price }}₴
+            </p>
+            <div class="group cursor-pointer">
+              <router-link
+                :to="{
+                  name: 'Products',
+                  params: { id: product.product.category?.id },
+                }"
+                class="group-hover:text-emerald-800 duration-300 font-bold text-emerald-400 py-4 rounded-xl"
+              >
+                {{ product.product.category.name }}
+              </router-link>
+            </div>
+          </div>
+
+          <div
+            class="flex flex-col gap-4 items-center font-bold text-neutral-700 text-6xl p-4 rounded-xl"
           >
-            Миючі засоби
-          </p>
+            <p class="text-lg">Кількість</p>
+            <h2 class=""><span class="text-3xl">x</span>{{ product.count }}</h2>
+          </div>
         </div>
       </div>
-      <div
-        class="flex flex-col gap-4 items-center font-bold text-neutral-700 text-6xl p-4 rounded-xl"
-      >
-        <p class="text-lg">Кількість</p>
-        <h2 class=""><span class="text-3xl">x</span>2</h2>
+    </div>
+
+    <div
+      class="w-fit m-auto flex justify-center flex-col border-emerald-400 border-2 rounded-3xl bg-white bg-opacity-70 backdrop-filter backdrop-blur-lg p-4"
+    >
+      <div class="flex m-auto flex-row w-full p-4 gap-12">
+        <div class="flex flex-col">
+          <div v-if="orders.length == 0">
+            <p class="font-black text-4xl text-neutral-600">
+              Замовлення відсутні
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -165,6 +219,9 @@ import { onMounted, ref } from "vue";
 import restAuth from "../../composables/auth";
 import restUser from "@/composables/user";
 import restProduct from "@/composables/product";
+import restOrders from "@/composables/orders";
+
+const { getUserOrders, orders } = restOrders();
 
 const { logout, userLogged } = restAuth();
 const { getProducts, products } = restProduct();
@@ -188,6 +245,7 @@ const getBasket = async () => {
       console.log(`Нема продукту з таким айді: ${prod.product_id}`);
     }
   }
+  checkSumToPay();
 };
 
 const incrementCount = async (product_id) => {
@@ -224,11 +282,22 @@ const decrementCount = async (product_id) => {
 const updateUserBasket = () => {
   userBasket.value = JSON.stringify(userBasketProducts.value);
   localStorage.setItem("userBasket", userBasket.value);
+  checkSumToPay();
+};
+
+const sumToPay = ref(0);
+
+const checkSumToPay = () => {
+  sumToPay.value = 0;
+  userBasketProducts.value.forEach((productInBasket) => {
+    sumToPay.value += productInBasket.price * productInBasket.count;
+  });
 };
 
 onMounted(() => {
   getBasket();
   userLogged();
+  getUserOrders();
   getUser();
 });
 </script>

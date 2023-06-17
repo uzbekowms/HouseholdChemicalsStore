@@ -1,7 +1,9 @@
-import { ref } from "vue";
+import { ref, reactive } from "vue";
 import axios from "axios";
+import { useRouter } from "vue-router";
 
 export default function restProduct() {
+  const router = useRouter();
   const product = ref([]);
   const products = ref([]);
 
@@ -23,7 +25,7 @@ export default function restProduct() {
 
   const getProductsByCategoryId = async (category_id) => {
     const response = await axios.get(
-      "http://localhost:8001/api/v1/products/all?category=" + category_id
+      "http://localhost:8001/api/v1/products?category=" + category_id
     );
     console.log(category_id);
     products.value = response.data.data;
@@ -45,17 +47,21 @@ export default function restProduct() {
   const getProductsByNameAndPageNumberAndCategoryId = async (
     name,
     page_number,
-    category_id
+    category_id,
+    count
   ) => {
     const response = await axios.get(
-      "http://localhost:8001/api/v1/products/all?search=" +
+      "http://localhost:8001/api/v1/products?search=" +
         name +
-        "&category=" +
+        "&category_id=" +
         category_id +
         "&page=" +
-        page_number
+        page_number +
+        "&count=" +
+        count
     );
-    products.value = response.data.data;
+    products.value = response.data;
+    console.log(products.value);
   };
 
   const getProductsByNameAndPageNumber = async (name, page_number) => {
@@ -77,36 +83,63 @@ export default function restProduct() {
 
   const updateProduct = async (id) => {
     try {
-      await axios.put(
-        "http://localhost:8001/api/v1/products/all/" + id,
-        product.value
+      const formData = new FormData();
+      formData.append("image", product.value.image);
+      const response = await axios.post(
+        "http://localhost:8001/api/v1/images/upload",
+        formData
       );
+
+      const form = reactive({
+        name: product.value.name,
+        description: product.value.description,
+        categoryId: product.value.category.id,
+        imagePath: response.data,
+        price: product.value.price,
+        disabled: false,
+      });
+      await axios.put("http://localhost:8001/api/v1/products/" + id, form);
     } catch (error) {
       if (error.response.status === 422) {
         errors.value = error.response.data.errors;
       }
     }
+    router.go();
   };
 
   const createProduct = async (data) => {
     try {
       const formData = new FormData();
-      formData.append("product[]", data);
-      console.log(formData);
+      formData.append("image", data.image);
+      const response = await axios.post(
+        "http://localhost:8001/api/v1/images/upload",
+        formData
+      );
+      console.log(response.data);
+      console.log(data.category);
 
-      await axios.post("http://localhost:8001/api/v1/products/all", formData);
+      const form = reactive({
+        name: data.name,
+        description: data.description,
+        categoryId: data.category_id,
+        imagePath: response.data,
+        price: data.price,
+        disabled: false,
+      });
+
+      await axios.post("http://localhost:8001/api/v1/products", form);
     } catch (error) {
-      if (error.response.status === 422) {
-        errors.value = error.response.data.errors;
-      }
+      console.log(error);
     }
+    router.go();
   };
 
   const deleteProduct = async (id) => {
     if (!window.confirm("Видалити продукт?")) {
       return;
     }
-    await axios.delete("http://localhost:8001/api/v1/products/all/" + id);
+    await axios.delete("http://localhost:8001/api/v1/products/" + id);
+    router.go();
   };
 
   return {

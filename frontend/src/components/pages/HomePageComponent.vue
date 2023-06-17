@@ -12,9 +12,9 @@
           <br />повного циклу замовлення
         </h1>
       </div>
-      <div>
+      <div class="relative">
         <img
-          class="m-4 h-72 rounded-3xl"
+          class="m-4 h-72 relative rounded-3xl hover:-translate-y-3 hover:rotate-2 cursor-pointer duration-300"
           src="../../assets/pagesimages/mainimage.jpg"
           alt=""
         />
@@ -22,16 +22,17 @@
     </div>
 
     <div
+      v-if="products"
       class="w-2/3 gap-4 border-2 border-white bg-white rounded-3xl m-auto flex flex-col mb-32 bg-opacity-70 justify-evenly backdrop-filter backdrop-blur-lg"
     >
       <div
-        class="flex justify-evenly pt-12 flex-row gap-4"
+        class="grid grid-cols-2 mx-32 pt-12 flex-row gap-12"
         v-for="product in products"
         :key="product.id"
       >
         <div class="relative cursor-pointer flex group">
           <img
-            class="m-4 h-96 rounded-3xl"
+            class="m-4 h-96 w-96 object-cover rounded-3xl"
             :src="'http://localhost:8001/api/v1/images/' + product.imagePath"
             alt="no img"
           />
@@ -49,11 +50,12 @@
           <div
             class="backdrop-filter backdrop-blur-xl group cursor-pointer absolute left-0 ml-56 routerlink"
           >
-            <p
+            <router-link
+              :to="{ name: 'Products', params: { id: product.category.id } }"
               class="group-hover:text-emerald-800 font-bold text-emerald-400 p-2 rounded-xl"
             >
               {{ product.category.name }}
-            </p>
+            </router-link>
           </div>
 
           <router-link
@@ -62,14 +64,16 @@
           >
             {{ product.name }}
           </router-link>
-          <p class="mt-2 text-2xl text-neutral-400 font-bold">
+          <p class="mt-2 text-2xl text-blue-700 font-bold">
             {{ product.price }}₴
           </p>
           <p class="mt-2 text-md">{{ product.description }}</p>
 
-          <div class="flex flex-col w-full m-auto justify-center">
+          <div
+            class="flex flex-col w-full m-auto justify-center"
+            @click="addToBasket(product.id)"
+          >
             <div
-              @click="addToBasket(product.id)"
               class="py-4 my-4 justify-center gap-4 group routerlink flex flex-row items-center cursor-pointer"
             >
               <button class="">Додати в кошик</button>

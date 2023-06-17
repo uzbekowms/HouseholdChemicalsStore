@@ -47,7 +47,7 @@
                 <input
                   class="w-full px-4 py-4 border-2 border-emerald-500 rounded-xl shadow-2xl transition-colors duration-300 ease-in-out focus:outline-none focus:border-transparent"
                   type="text"
-                  v-model="category.name"
+                  v-model.lazy="category.name"
                 />
               </div>
               <div class="flex flex-row items-center gap-2">
@@ -55,7 +55,7 @@
                 <input
                   class="w-full px-4 py-4 border-2 border-emerald-500 rounded-xl shadow-2xl transition-colors duration-300 ease-in-out focus:outline-none focus:border-transparent"
                   type="text"
-                  v-model="category.description"
+                  v-model.lazy="category.description"
                 />
               </div>
             </div>

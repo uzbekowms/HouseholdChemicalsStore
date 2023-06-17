@@ -1,16 +1,17 @@
 <template>
   <div class="flex flex-row w-2/3 m-auto justify-between gap-4">
     <div class="flex flex-col" v-if="product">
-      <div class="flex flex-row gap-12">
+      <div class="grid grid-cols-3 gap-12">
         <div>
           <div
             class="backdrop-filter border-0 bg-white bg-opacity-40 backdrop-blur-sm group cursor-pointer absolute routerlink m-2"
           >
-            <p
+            <router-link
+              :to="{ name: 'Products', params: { id: product.category?.id } }"
               class="group-hover:text-emerald-800 duration-300 font-bold text-neutral-700 p-2 rounded-xl"
             >
               {{ product.category?.name }}
-            </p>
+            </router-link>
           </div>
           <img
             class="rounded-3xl"
@@ -19,7 +20,7 @@
           />
         </div>
         <div
-          class="flex w-full p-12 flex-col bg-white border-2 border-white rounded-3xl text-neutral-700 bg-opacity-70 backdrop-filter backdrop-blur-lg"
+          class="flex col-span-2 p-12 flex-col bg-white border-2 border-white rounded-3xl text-neutral-700 bg-opacity-70 backdrop-filter backdrop-blur-lg"
         >
           <h1 class="break-word font-bold text-4xl text-neutral-700">
             {{ product.name }}
@@ -33,7 +34,9 @@
               <div
                 class="py-4 my-4 justify-center gap-4 group routerlink flex flex-row items-center cursor-pointer"
               >
-                <button class="">Додати в кошик</button>
+                <button class="" @click="addToBasket(product.id)">
+                  Додати в кошик
+                </button>
                 <img
                   class="w-10 h-10 group-hover:bg-neutral-700 p-2 rounded-lg transition duration-300"
                   src="../../assets/icons/basket.png"
@@ -96,12 +99,34 @@
       class="flex p-12 w-1/3 flex-col bg-white border-2 border-white rounded-3xl text-neutral-700 bg-opacity-70 backdrop-filter backdrop-blur-lg"
     >
       <h1 class="break-word font-bold text-4xl text-neutral-700">Відгуки</h1>
-      <div class="flex flex-row items-center gap-4 border-2 my-2 rounded-xl">
-        <div class="flex flex-col bg-neutral-200 rounded-l-md p-2">
-          <h2 class="text-xl font-bold">Username</h2>
-          <h2>10.05.2023</h2>
+      <div class="overflow-visible">
+        <div
+          v-for="review in product.reviews"
+          :key="review.id"
+          class="scroll overflow-visible"
+        >
+          <div
+            v-if="review.text != null"
+            class="flex overflow-visible flex-col my-2"
+          >
+            <div class="flex flex-row border-2 rounded-xl items-center gap-4">
+              <div>
+                <div class="flex flex-row bg-neutral-200 rounded-l-md p-2">
+                  <h2 class="text-xl font-bold">
+                    {{ review.reviewOwner.name }}
+                  </h2>
+                  <div class="flex gap-2">
+                    <p>{{ review.reviewOwner.surname }}</p>
+                    <p>{{ review.reviewOwner.patronymic }}</p>
+                  </div>
+                </div>
+              </div>
+              <div>{{ review.text }}</div>
+            </div>
+
+            <h2>{{ formatDate(review.timeOfReview) }}</h2>
+          </div>
         </div>
-        <div>User review text</div>
       </div>
       <div class="bottom-4 absolute mx-4 left-0 right-0">
         <label class="text-sm text-gray-400"
@@ -111,8 +136,11 @@
           <input
             class="w-full rounded-r-none border-r-0 py-4 border-2 border-emerald-500 rounded-xl shadow-2xl transition-colors duration-300 ease-in-out focus:outline-none focus:border-transparent"
             type="text"
+            v-model="form.text"
           />
-          <button class="routerlink rounded-l-none">Відправити</button>
+          <button class="routerlink rounded-l-none" @click="createReview(form)">
+            Відправити
+          </button>
         </div>
       </div>
     </div>
@@ -120,14 +148,56 @@
 </template>
 
 <script setup>
-import { onMounted } from "vue";
+import { onMounted, reactive, watch } from "vue";
 import { useRoute } from "vue-router";
-const router = useRoute();
+import restReview from "@/composables/review";
 import restProduct from "../../composables/product";
-
+const router = useRoute();
+const { createReview } = restReview();
 const { getProduct, product } = restProduct();
 
-onMounted(() => {
-  getProduct(router.params.id);
+const form = reactive({
+  productId: undefined,
+  text: "",
+  jwt: localStorage.getItem("token"),
 });
+
+const formatDate = (dateString) => {
+  const date = new Date(dateString);
+  return date.toLocaleString();
+};
+
+const getProductInfo = async () => {
+  await getProduct(router.params.id);
+};
+
+watch(product, (newValue) => {
+  form.productId = newValue.id;
+});
+onMounted(() => {
+  getProductInfo();
+});
+</script>
+<script>
+export default {
+  methods: {
+    addToBasket(id) {
+      const productToBasket = {
+        product_id: id,
+        count: 1,
+      };
+      const userBasket = localStorage.getItem("userBasket");
+      let parsedBasket = userBasket ? JSON.parse(userBasket) : [];
+
+      const index = parsedBasket.indexOf(id);
+      if (index === -1) {
+        parsedBasket.push(productToBasket);
+      } else {
+        parsedBasket.splice(index, 1);
+      }
+
+      localStorage.setItem("userBasket", JSON.stringify(parsedBasket));
+    },
+  },
+};
 </script>
