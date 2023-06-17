@@ -33,8 +33,9 @@ public class OrderServiceImpl implements OrderService {
     public OrderDTOResponse makeOrder(OrderDTORequest order) {
         Order orderToSave = orderFactory.fromDto(order);
         paymentService.payment(orderToSave, order.getPayment());
+        OrderDTOResponse orderRequest = orderFactory.toDto(orderRepository.save(orderToSave));
         orderProductRepository.saveAll(orderToSave.getProducts());
-        return orderFactory.toDto(orderRepository.save(orderToSave));
+        return orderRequest;
     }
 
     @Override
