@@ -13,7 +13,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ReviewDTORequest {
     private int id;
-    @NotBlank(message = "Product id cannot be empty")
     private int productId;
     @NotBlank(message = "Text cannot be empty")
     private String text;
