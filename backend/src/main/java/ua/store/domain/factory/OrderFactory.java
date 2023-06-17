@@ -5,11 +5,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 import ua.store.domain.jwt.JwtService;
 import ua.store.domain.model.Order;
+import ua.store.domain.model.OrderProduct;
 import ua.store.domain.model.OrderStatus;
-import ua.store.domain.repository.OrderProductRepository;
-import ua.store.domain.repository.OrderRepository;
-import ua.store.domain.repository.OrderStatusRepository;
-import ua.store.domain.repository.UserRepository;
+import ua.store.domain.repository.*;
 import ua.store.web.dto.OrderDTORequest;
 import ua.store.web.dto.OrderDTOResponse;
 import ua.store.web.dto.OrderProductDTORequest;
@@ -23,7 +21,7 @@ public class OrderFactory {
     private final OrderStatusFactory orderStatusFactory;
     private final OrderStatusRepository orderStatusRepository;
     private final OrderProductFactory orderProductFactory;
-    private final OrderProductRepository orderProductRepository;
+    private final ProductRepository productRepository;
     private final UserRepository userRepository;
     private final JwtService jwtService;
 
@@ -37,14 +35,20 @@ public class OrderFactory {
     }
 
     public Order fromDto(OrderDTORequest order) {
-        return Order.builder()
+        Order orderFromDto = Order.builder()
                 .id(order.getId())
                 .timeOfOrder(new Date())
                 .owner(userRepository.findByEmail(jwtService.extractUsername(order.getJwt())).orElseThrow())
                 .status(orderStatusRepository.findByName("Ordered"))
-                .products(orderProductRepository.findAllById(order.getProducts()
-                        .stream()
-                        .map(OrderProductDTORequest::getProductId).toList()))
                 .build();
+        orderFromDto.setProducts(order.getProducts().stream()
+                .map(product ->
+                        OrderProduct.builder()
+                                .product(productRepository.findById(product.getProductId()).orElseThrow())
+                                .count(product.getCount())
+                                .order(orderFromDto)
+                                .build()).toList());
+
+        return orderFromDto;
     }
 }
