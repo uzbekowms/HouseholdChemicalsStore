@@ -42,7 +42,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<OrderDTOResponse> findAll(HttpServletRequest request) {
-        String userEmail = jwtService.extractUsername(request.getHeader("Authorization")).substring(7);
+        String userEmail = jwtService.extractUsername(request.getHeader("Authorization").substring(7));
         User owner = userRepository.findByEmail(userEmail).orElseThrow();
         return orderRepository.findAllByOwner(owner).stream().map(orderFactory::toDto).toList();
     }
