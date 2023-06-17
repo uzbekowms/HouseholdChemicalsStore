@@ -1,5 +1,6 @@
 package ua.store.web.restcontroller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +16,7 @@ public class ReviewController {
     private final ReviewService reviewService;
 
     @PostMapping
-    public ResponseEntity<ReviewDTOResponse> addReview(@RequestBody ReviewDTORequest request) {
+    public ResponseEntity<ReviewDTOResponse> addReview(@RequestBody @Valid ReviewDTORequest request) {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(reviewService.add(request));
     }

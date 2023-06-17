@@ -1,5 +1,6 @@
 package ua.store.web.restcontroller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
@@ -44,12 +45,12 @@ public class ProductController {
     }
 
     @PostMapping
-    public ResponseEntity<Product> addProduct(@RequestBody ProductDTORequest product) {
+    public ResponseEntity<Product> addProduct(@RequestBody @Valid ProductDTORequest product) {
         return ResponseEntity.status(HttpStatus.CREATED).body(productService.save(product));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Product> updateProduct(@RequestBody ProductDTORequest product, @PathVariable int id) {
+    public ResponseEntity<Product> updateProduct(@RequestBody @Valid ProductDTORequest product, @PathVariable int id) {
         return ResponseEntity.status(HttpStatus.CREATED).body(productService.update(product, id));
     }
 
