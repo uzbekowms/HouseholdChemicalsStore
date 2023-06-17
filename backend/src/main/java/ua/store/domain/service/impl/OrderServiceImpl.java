@@ -7,6 +7,7 @@ import ua.store.domain.factory.OrderFactory;
 import ua.store.domain.jwt.JwtService;
 import ua.store.domain.model.Order;
 import ua.store.domain.model.User;
+import ua.store.domain.repository.OrderProductRepository;
 import ua.store.domain.repository.OrderRepository;
 import ua.store.domain.repository.UserRepository;
 import ua.store.domain.service.OrderService;
@@ -25,12 +26,14 @@ public class OrderServiceImpl implements OrderService {
     private final PaymentService paymentService;
     private final JwtService jwtService;
     private final UserRepository userRepository;
+    private final OrderProductRepository orderProductRepository;
 
 
     @Override
     public OrderDTOResponse makeOrder(OrderDTORequest order) {
         Order orderToSave = orderFactory.fromDto(order);
         paymentService.payment(orderToSave, order.getPayment());
+        orderProductRepository.saveAll(orderToSave.getProducts());
         return orderFactory.toDto(orderRepository.save(orderToSave));
     }
 
