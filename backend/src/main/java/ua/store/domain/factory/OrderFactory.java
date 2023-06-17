@@ -26,9 +26,6 @@ public class OrderFactory {
     private final JwtService jwtService;
 
     public OrderDTOResponse toDto(Order order) {
-        if (order == null)
-            return null;
-
         return OrderDTOResponse.builder()
                 .id(order.getId())
                 .timeOfOrder(order.getTimeOfOrder())

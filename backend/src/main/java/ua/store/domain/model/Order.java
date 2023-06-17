@@ -30,7 +30,7 @@ public class Order {
     @Column(name = "time_of_order")
     private Date timeOfOrder;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "status_id")
     private OrderStatus status;
 }
