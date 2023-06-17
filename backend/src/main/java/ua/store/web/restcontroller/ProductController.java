@@ -35,10 +35,12 @@ public class ProductController {
                                                               @RequestParam(required = false, defaultValue = "20", value = "count") int count,
                                                               @RequestParam(required = false, value = "category_id") Integer categoryId,
                                                               @RequestParam(required = false, value = "search") String search) {
-        System.out.println(categoryId == null);
-        System.out.println(search == null);
-        System.out.println(search);
         return ResponseEntity.ok(productService.findAll(PageRequest.of(page, count), categoryId, search));
+    }
+
+    @GetMapping("/count")
+    public ResponseEntity<Long> getCountOfProducts(){
+        return ResponseEntity.ok(productService.count());
     }
 
     @PostMapping

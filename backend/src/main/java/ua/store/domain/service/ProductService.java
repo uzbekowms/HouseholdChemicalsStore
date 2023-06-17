@@ -25,4 +25,6 @@ public interface ProductService {
     Product update(ProductDTORequest product, int id);
 
     boolean disable(int id);
+
+    long count();
 }

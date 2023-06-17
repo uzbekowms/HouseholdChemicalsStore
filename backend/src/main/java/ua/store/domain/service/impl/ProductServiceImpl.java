@@ -79,6 +79,11 @@ public class ProductServiceImpl implements ProductService {
         return true;
     }
 
+    @Override
+    public long count() {
+        return repository.count();
+    }
+
     private void checkExists(int id) {
         if (!repository.existsById(id))
             throw new EntityNotFoundException("Cant find Product with id: " + id);
