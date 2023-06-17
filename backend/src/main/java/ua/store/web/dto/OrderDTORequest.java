@@ -16,4 +16,5 @@ public class OrderDTORequest {
     private int id;
     @NotEmpty(message = "Order products cannot be empty")
     private List<OrderProductDTORequest> products;
+    private Payment payment;
 }

@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface OrderService {
 
-    OrderDTOResponse makeOrder(OrderDTORequest order, Payment payment);
+    OrderDTOResponse makeOrder(OrderDTORequest order);
 
     List<OrderDTOResponse> findAll();
 }

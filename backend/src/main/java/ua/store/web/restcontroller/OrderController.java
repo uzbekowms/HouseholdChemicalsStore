@@ -20,10 +20,9 @@ public class OrderController {
     private final OrderService orderService;
 
     @PostMapping
-    public ResponseEntity<OrderDTOResponse> order(@RequestPart("order") @Valid OrderDTORequest order,
-                                                  @RequestPart("payment") @Valid Payment payment) {
+    public ResponseEntity<OrderDTOResponse> order(@RequestBody @Valid OrderDTORequest order) {
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(orderService.makeOrder(order, payment));
+                .body(orderService.makeOrder(order));
     }
 
     @GetMapping()
