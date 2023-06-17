@@ -11,4 +11,5 @@ public interface OrderService {
     OrderDTOResponse makeOrder(OrderDTORequest order);
 
     List<OrderDTOResponse> findAll(HttpServletRequest request);
+    List<OrderDTOResponse> findAll();
 }

@@ -44,4 +44,9 @@ public class OrderServiceImpl implements OrderService {
         User owner = userRepository.findByEmail(userEmail).orElseThrow();
         return orderRepository.findAllByOwner(owner).stream().map(orderFactory::toDto).toList();
     }
+
+    @Override
+    public List<OrderDTOResponse> findAll() {
+        return orderRepository.findAll().stream().map(orderFactory::toDto).toList();
+    }
 }

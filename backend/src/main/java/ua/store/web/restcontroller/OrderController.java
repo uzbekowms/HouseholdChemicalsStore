@@ -26,8 +26,13 @@ public class OrderController {
                 .body(orderService.makeOrder(order));
     }
 
-    @GetMapping()
-    public ResponseEntity<List<OrderDTOResponse>> getAllOrders(HttpServletRequest request) {
+    @GetMapping
+    public ResponseEntity<List<OrderDTOResponse>> getAllUserOrders(HttpServletRequest request) {
         return ResponseEntity.ok(orderService.findAll(request));
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<List<OrderDTOResponse>> getAllOrders() {
+        return ResponseEntity.ok(orderService.findAll());
     }
 }
