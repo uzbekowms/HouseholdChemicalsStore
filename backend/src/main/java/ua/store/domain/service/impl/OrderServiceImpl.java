@@ -51,7 +51,8 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public OrderDTOResponse updateStatus(int order, int status) {
-        return orderFactory.toDto(orderRepository.updateStatus(order, status));
+    public String updateStatus(int order, int status) {
+        orderRepository.updateStatus(order, status);
+        return "Status updated";
     }
 }

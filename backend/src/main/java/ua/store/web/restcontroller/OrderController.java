@@ -37,7 +37,7 @@ public class OrderController {
     }
 
     @PutMapping("/{id}/status={status}")
-    public ResponseEntity<OrderDTOResponse> updateOrderStatus(@PathVariable int id, @PathVariable int status) {
+    public ResponseEntity<String> updateOrderStatus(@PathVariable int id, @PathVariable int status) {
         return ResponseEntity.ok(orderService.updateStatus(id, status));
     }
 

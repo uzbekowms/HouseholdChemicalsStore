@@ -15,5 +15,5 @@ public interface OrderRepository extends JpaRepository<Order, Integer> {
 
 
     @Query("update Order o set o.status.id = :statusId where o.id = :order")
-    Order updateStatus(int order, int statusId);
+    void updateStatus(int order, int statusId);
 }
