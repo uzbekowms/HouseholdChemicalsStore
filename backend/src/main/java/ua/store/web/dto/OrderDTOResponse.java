@@ -17,4 +17,5 @@ public class OrderDTOResponse {
     private List<OrderProductDTOResponse> products;
     private Date timeOfOrder;
     private OrderStatusDTO status;
+    private UserDTOResponse orderOwner;
 }
