@@ -6,6 +6,8 @@ import org.springframework.stereotype.Service;
 import ua.store.domain.model.Order;
 import ua.store.domain.model.OrderProduct;
 import ua.store.domain.service.PaymentService;
+import ua.store.web.dto.Payment;
+import ua.store.web.exception.PaymentRejectedException;
 
 import java.util.HashMap;
 import java.util.List;
@@ -13,22 +15,25 @@ import java.util.Map;
 
 @Service
 public class PaymentServiceImpl implements PaymentService {
+    @Value("${payment.valid-card}")
+    private String validCard;
 
-    @Value("${liqpay.public}")
-    private String publicKey;
-    @Value("${liqpay.private}")
-    private String privateKey;
+    @Value("${payment.invalid-card}")
+    private String invalidCard;
 
     @Override
-    public Map<String, Object> payment(Order order) throws Exception {
+    public String payment(Order order, Payment payment){
         Map<String, String> params = new HashMap<>();
 
-        params.put("amount", amount(order.getProducts()));
+        String orderAmount = amount(order.getProducts());
+        params.put("amount", orderAmount);
         params.put("currency", "UAH");
         params.put("sandbox", "1");
-        LiqPay liqPay = new LiqPay(publicKey, privateKey);
-        System.out.println(liqPay.api("request", params));
-        return liqPay.api("/request", params);
+
+        if (payment.getCardNumber().equals(invalidCard))
+            throw new PaymentRejectedException("There are not enough funds on the balance sheet\n");
+
+        return "Payment is successful on amount - " + orderAmount;
     }
 
     private String amount(List<OrderProduct> products) {
