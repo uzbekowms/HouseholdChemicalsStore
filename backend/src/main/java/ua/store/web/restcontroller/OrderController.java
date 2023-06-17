@@ -36,7 +36,7 @@ public class OrderController {
         return ResponseEntity.ok(orderService.findAll());
     }
 
-    @PostMapping("/{id}?status={status}")
+    @PutMapping("/{id}?status={status}")
     public ResponseEntity<OrderDTOResponse> updateOrderStatus(@PathVariable int id, @PathVariable int status) {
         return ResponseEntity.ok(orderService.updateStatus(id, status));
     }
