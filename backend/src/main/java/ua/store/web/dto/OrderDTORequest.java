@@ -17,4 +17,6 @@ public class OrderDTORequest {
     @NotEmpty(message = "Order products cannot be empty")
     private List<OrderProductDTORequest> products;
     private Payment payment;
+    @NotEmpty(message = "Jwt cannot be empty")
+    private String jwt;
 }
