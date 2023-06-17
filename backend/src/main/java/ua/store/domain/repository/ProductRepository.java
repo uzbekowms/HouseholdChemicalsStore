@@ -22,7 +22,7 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
     @Query("select p from Product p " +
             "where ((lower(p.name) like concat('%', lower(:search) ,'%') or :search is null) " +
             "or (lower(p.description) like concat('%', lower(:search) ,'%') or :search is null)) " +
-            "and ( p.category.id = :categoryId or :categoryId is null )")
+            "and ( p.category.id = :categoryId or :categoryId is null ) order by p.name")
     List<Product> findAll(Pageable pageable, @Param("search") String search, @Param("categoryId") Integer categoryId);
 
 }

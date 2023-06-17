@@ -23,7 +23,7 @@ public class Product {
     private String description;
     private float price;
     @ManyToOne
-    @JoinColumn(name = "category_id", unique = false)
+    @JoinColumn(name = "category_id")
     private Category category;
     @Column(name = "image_path")
     private String imagePath;
