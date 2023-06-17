@@ -15,7 +15,6 @@ import java.util.List;
 @AllArgsConstructor
 public class OrderDTOResponse {
     private int id;
-    @JsonIgnoreProperties("reviews")
     private List<OrderProductDTOResponse> products;
     private Date timeOfOrder;
     private OrderStatusDTO status;
