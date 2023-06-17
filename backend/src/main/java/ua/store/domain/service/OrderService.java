@@ -12,4 +12,6 @@ public interface OrderService {
 
     List<OrderDTOResponse> findAll(HttpServletRequest request);
     List<OrderDTOResponse> findAll();
+
+    OrderDTOResponse updateStatus(int id, int status);
 }

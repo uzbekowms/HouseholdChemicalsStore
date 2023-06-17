@@ -12,4 +12,8 @@ import java.util.List;
 public interface OrderRepository extends JpaRepository<Order, Integer> {
 
     List<Order> findAllByOwner(User owner);
+
+
+    @Query("update Order o set o.status.id = :statusId where o.id = :order")
+    Order updateStatus(int order, int statusId);
 }

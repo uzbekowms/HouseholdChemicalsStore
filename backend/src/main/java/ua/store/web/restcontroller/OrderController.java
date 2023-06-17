@@ -35,4 +35,11 @@ public class OrderController {
     public ResponseEntity<List<OrderDTOResponse>> getAllOrders() {
         return ResponseEntity.ok(orderService.findAll());
     }
+
+    @PostMapping("/{id}?status={status}")
+    public ResponseEntity<OrderDTOResponse> updateOrderStatus(@PathVariable int id, @PathVariable int status) {
+        return ResponseEntity.ok(orderService.updateStatus(id, status));
+    }
+
+
 }

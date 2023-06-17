@@ -49,4 +49,9 @@ public class OrderServiceImpl implements OrderService {
     public List<OrderDTOResponse> findAll() {
         return orderRepository.findAll().stream().map(orderFactory::toDto).toList();
     }
+
+    @Override
+    public OrderDTOResponse updateStatus(int order, int status) {
+        return orderFactory.toDto(orderRepository.updateStatus(order, status));
+    }
 }
