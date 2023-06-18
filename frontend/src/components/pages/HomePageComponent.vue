@@ -23,16 +23,16 @@
 
     <div
       v-if="products"
-      class="w-2/3 gap-4 border-2 border-white bg-white rounded-3xl m-auto flex flex-col mb-32 bg-opacity-70 justify-evenly backdrop-filter backdrop-blur-lg"
+      class="w-2/3 grid gap-4 grid-cols-3 border-2 border-white bg-white rounded-3xl m-auto bg-opacity-70 justify-evenly backdrop-filter backdrop-blur-lg"
     >
       <div
-        class="grid grid-cols-2 mx-32 pt-12 flex-row gap-12"
+        class="flex bg-emerald-200 rounded-xl m-2 p-2 pt-12 flex-col gap-12"
         v-for="product in products"
         :key="product.id"
       >
-        <div class="relative cursor-pointer flex group">
+        <div class="relative cursor-pointer flex flex-col group">
           <img
-            class="m-4 h-96 w-96 object-cover rounded-3xl"
+            class="m-4 h-96 object-cover rounded-3xl"
             :src="'http://localhost:8001/api/v1/images/' + product.imagePath"
             alt="no img"
           />
@@ -87,6 +87,18 @@
         </div>
       </div>
     </div>
+    <div class="flex mb-32 gap-4 mt-4 text-3xl m-auto w-2/3 flex-row">
+      <p class="cursor-pointer" @click="goToPreviousPage">Попередня</p>
+      <p
+        class="cursor-pointer"
+        @click="goToPage(page)"
+        v-for="page in allPages"
+        :key="page.id"
+      >
+        {{ page }}
+      </p>
+      <p class="cursor-pointer" @click="goToNextPage">Наступна</p>
+    </div>
   </div>
 </template>
 
@@ -115,13 +127,50 @@ export default {
 </script>
 
 <script setup>
-import { onMounted } from "vue";
+import { onMounted, ref } from "vue";
 
 import restProduct from "../../composables/product";
 
-const { getProducts, products } = restProduct();
+const { getProductsByPageNumber, getProductsCount, productsCount, products } =
+  restProduct();
 
-onMounted(() => {
-  getProducts();
+let pageNumber = 0;
+const productsOnPage = 6;
+const allPages = ref(0);
+
+const getAllPages = async () => {
+  allPages.value = Math.ceil(productsCount.value / productsOnPage);
+};
+
+const goToPreviousPage = () => {
+  if (pageNumber > 0) {
+    pageNumber--;
+  }
+  changePage();
+};
+
+const goToNextPage = () => {
+  if (pageNumber < allPages.value - 1) {
+    pageNumber++;
+  }
+  changePage();
+};
+
+const goToPage = (page) => {
+  page--;
+  if (page >= 0 && page < allPages.value) {
+    pageNumber = page;
+  }
+  changePage();
+};
+
+const changePage = async () => {
+  await getProductsByPageNumber(pageNumber, productsOnPage);
+};
+
+onMounted(async () => {
+  await getProductsCount();
+  await changePage();
+  await getAllPages();
 });
 </script>
