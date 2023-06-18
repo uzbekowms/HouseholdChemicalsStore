@@ -4,6 +4,7 @@ import HomePageComponent from "./components/pages/HomePageComponent.vue";
 import ProductPage from "./components/pages/ProductPage.vue";
 import ProfilePage from "./components/pages/ProfilePage.vue";
 import ProductsPage from "./components/pages/ProductsPage.vue";
+import PayoutPage from "./components/pages/PayoutPage.vue";
 
 import LoginPage from "./components/authpages/LoginPage.vue";
 import RegisterPage from "./components/authpages/RegisterPage.vue";
@@ -25,9 +26,15 @@ const routes = [
     component: AdminComponent,
   },
   {
-    path: "/products",
+    path: "/payout",
+    name: "Payout",
+    component: PayoutPage,
+  },
+  {
+    path: "/products/:id?",
     name: "Products",
     component: ProductsPage,
+    props: true,
   },
   {
     path: "/users/:id?/edit",

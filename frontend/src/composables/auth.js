@@ -1,22 +1,30 @@
 import axios from "axios";
+import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { useRoute } from "vue-router";
 
 export default function restAuth() {
   const router = useRouter();
   const route = useRoute();
+  const errors = ref([]);
 
   const loginUser = async (data) => {
-    const response = await axios.post(
-      "http://localhost:8001/api/v1/auth/authenticate",
-      data
-    );
-    let token = response.data.token;
+    try {
+      const response = await axios.post(
+        "http://localhost:8001/api/v1/auth/authenticate",
+        data
+      );
+      let token = response.data.token;
 
-    localStorage.setItem("token", token);
+      localStorage.setItem("token", token);
 
-    if (response.status == 200) {
-      router.push({ name: "Profile" });
+      router.go();
+
+      if (response.status == 200) {
+        router.push({ name: "Profile" });
+      }
+    } catch (err) {
+      errors.value = err.response.data.errors;
     }
   };
 
@@ -40,17 +48,21 @@ export default function restAuth() {
   };
 
   const signUpUser = async (data) => {
-    const response = await axios.post(
-      "http://localhost:8001/api/v1/auth/signup",
-      data
-    );
+    try {
+      const response = await axios.post(
+        "http://localhost:8001/api/v1/auth/signup",
+        data
+      );
 
-    let token = response.data.token;
+      let token = response.data.token;
 
-    localStorage.setItem("token", token);
+      localStorage.setItem("token", token);
 
-    if (response.status == 200) {
-      router.push({ name: "Profile" });
+      if (response.status == 200) {
+        router.push({ name: "Profile" });
+      }
+    } catch (err) {
+      errors.value = err.response.data.errors;
     }
   };
 
@@ -64,5 +76,6 @@ export default function restAuth() {
     logoutUser,
     logout,
     userLogged,
+    errors,
   };
 }

@@ -1,9 +1,11 @@
 import { ref } from "vue";
 import axios from "axios";
+import { useRouter } from "vue-router";
 
 export default function restCategory() {
   const category = ref([]);
   const categories = ref([]);
+  const router = useRouter();
 
   const errors = ref({});
 
@@ -35,6 +37,7 @@ export default function restCategory() {
         errors.value = error.response.data.errors;
       }
     }
+    router.go();
   };
 
   const createCategory = async (data) => {
@@ -47,6 +50,7 @@ export default function restCategory() {
         errors.value = error.response.data.errors;
       }
     }
+    router.go();
   };
 
   const deleteCategory = async (id) => {
@@ -54,6 +58,7 @@ export default function restCategory() {
       return;
     }
     await axios.delete("http://localhost:8001/api/v1/categories/" + id);
+    router.go();
   };
 
   return {

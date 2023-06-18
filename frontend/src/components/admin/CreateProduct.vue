@@ -73,6 +73,7 @@
                   <input
                     class="w-full px-4 py-4 border-2 border-emerald-500 rounded-xl shadow-2xl transition-colors duration-300 ease-in-out focus:outline-none focus:border-transparent"
                     type="file"
+                    accept="image/png, image/jpg, image/jpeg, image/webp"
                     @change="handleFileUpload"
                   />
 
@@ -114,7 +115,6 @@ const form = reactive({
 });
 onMounted(() => {
   getCategories();
-  console.log(categories.value);
 });
 
 const handleFileUpload = async (e) => {

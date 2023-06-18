@@ -1,13 +1,13 @@
 import { ref } from "vue";
 import axios from "axios";
+import { useRouter } from "vue-router";
 
 export default function restReview() {
+  const router = useRouter();
   const review = ref([]);
   const reviews = ref([]);
 
   const errors = ref({});
-
-  const BASE_URL = "";
 
   const getReview = async (id) => {
     const response = await axios.get(
@@ -49,10 +49,11 @@ export default function restReview() {
         errors.value = error.response.data.errors;
       }
     }
+    router.go();
   };
 
   const deleteReview = async (id) => {
-    if (!window.confirm("Видалити категорію?")) {
+    if (!window.confirm("Видалити відгук?")) {
       return;
     }
     await axios.delete("http://localhost:8001/api/v1/reviews/" + id);

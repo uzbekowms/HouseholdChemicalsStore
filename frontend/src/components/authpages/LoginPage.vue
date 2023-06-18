@@ -32,6 +32,9 @@
                   type="password"
                   v-model="form.password"
                 />
+                <div v-for="error in errors" :key="error.id">
+                  <p class="text-sm text-red-400">{{ error }}</p>
+                </div>
                 <div class="items-center gap-4 mt-2 flex justify-center">
                   <div @click="loginUser(form)">Продовжити</div>
                 </div>
@@ -60,7 +63,7 @@
 import { reactive, onMounted } from "vue";
 import restProduct from "../../composables/auth";
 
-const { loginUser, userLogged } = restProduct();
+const { loginUser, errors, userLogged } = restProduct();
 const form = reactive({
   email: "",
   password: "",

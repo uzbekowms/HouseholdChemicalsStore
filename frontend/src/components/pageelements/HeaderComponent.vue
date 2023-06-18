@@ -5,7 +5,12 @@
     <div class="gap-4 flex flex-row text-lg">
       <router-link class="link" :to="{ name: 'Home' }">Головна</router-link>
       <router-link class="link" :to="{ name: 'Products' }">Магазин</router-link>
-      <router-link class="link" :to="{ name: 'Admin' }">ADMIN</router-link>
+      <router-link
+        v-if="user.role == 'ROLE_ADMIN'"
+        class="link"
+        :to="{ name: 'Admin' }"
+        >ADMIN</router-link
+      >
     </div>
     <div class="flex">LOGO</div>
     <div class="flex flex-row gap-4">
@@ -24,9 +29,19 @@
   </div>
 </template>
 
+<script setup>
+import { onMounted } from "vue";
+import restUser from "@/composables/user";
+
+const { getUser, user } = restUser();
+
+onMounted(() => {
+  getUser();
+});
+</script>
+
 <script>
 import userIcon from "@/assets/icons/userprofile.png";
-
 export default {
   data() {
     return {
