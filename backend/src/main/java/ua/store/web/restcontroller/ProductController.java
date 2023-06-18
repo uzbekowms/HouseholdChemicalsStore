@@ -43,7 +43,6 @@ public class ProductController {
     public ResponseEntity<Long> getCountOfProducts(){
         return ResponseEntity.ok(productService.count());
     }
-
     @PostMapping
     public ResponseEntity<Product> addProduct(@RequestBody @Valid ProductDTORequest product) {
         return ResponseEntity.status(HttpStatus.CREATED).body(productService.save(product));
