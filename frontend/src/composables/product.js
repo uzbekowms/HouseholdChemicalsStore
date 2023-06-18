@@ -128,8 +128,8 @@ export default function restProduct() {
       });
 
       await axios.post("http://localhost:8001/api/v1/products", form);
-    } catch (error) {
-      console.log(error);
+    } catch (err) {
+      errors.value = err.response.data.errors;
     }
     router.go();
   };
