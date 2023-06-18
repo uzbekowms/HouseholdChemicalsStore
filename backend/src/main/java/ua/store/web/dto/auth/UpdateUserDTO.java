@@ -6,11 +6,13 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.validation.annotation.Validated;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Validated
 public class UpdateUserDTO {
     private int id;
     @NotBlank(message = "Name cannot be blank")
