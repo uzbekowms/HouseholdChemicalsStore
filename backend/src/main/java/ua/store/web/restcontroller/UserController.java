@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import ua.store.domain.service.UserService;
 import ua.store.web.dto.UserDTOResponse;
 import ua.store.web.dto.auth.RegisterRequest;
+import ua.store.web.dto.auth.UpdateUserDTO;
 
 @RestController
 @RequestMapping("/users")
@@ -20,7 +21,7 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<UserDTOResponse> updateUser(@RequestBody @Valid RegisterRequest request, @PathVariable int id){
+    public ResponseEntity<UserDTOResponse> updateUser(@RequestBody @Valid UpdateUserDTO request, @PathVariable int id){
         return ResponseEntity.ok(userService.update(request, id));
     }
 

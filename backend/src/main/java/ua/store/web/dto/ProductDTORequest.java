@@ -1,6 +1,8 @@
 package ua.store.web.dto;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -18,7 +20,7 @@ public class ProductDTORequest {
     private String description;
     @NotBlank(message = "Price cannot be blank")
     private float price;
-    @NotBlank(message = "Category cannot be blank")
+    @NotEmpty(message = "Category cannot be blank")
     private int categoryId;
     private boolean disabled;
     @NotBlank(message = "Image cannot be blank")

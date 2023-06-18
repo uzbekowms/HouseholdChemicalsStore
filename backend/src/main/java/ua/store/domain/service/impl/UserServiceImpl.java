@@ -11,6 +11,7 @@ import ua.store.domain.repository.UserRepository;
 import ua.store.domain.service.UserService;
 import ua.store.web.dto.UserDTOResponse;
 import ua.store.web.dto.auth.RegisterRequest;
+import ua.store.web.dto.auth.UpdateUserDTO;
 
 
 @Service
@@ -28,7 +29,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDTOResponse update(RegisterRequest request, int id) {
+    public UserDTOResponse update(UpdateUserDTO request, int id) {
         checkExists(id);
 
         User userToSave = userFactory.fromDto(request);
