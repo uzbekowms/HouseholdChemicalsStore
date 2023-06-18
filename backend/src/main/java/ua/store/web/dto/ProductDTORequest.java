@@ -20,7 +20,6 @@ public class ProductDTORequest {
     private String name;
     @NotBlank(message = "Description cannot be blank")
     private String description;
-    @NotBlank(message = "Price cannot be blank")
     private float price;
     private int categoryId;
     private boolean disabled;
