@@ -30,9 +30,7 @@ export default function restUser() {
     try {
       await axios.put("http://localhost:8001/api/v1/users/" + id, user.value);
     } catch (error) {
-      if (error.response.status === 422) {
-        errors.value = error.response.data.errors;
-      }
+      errors.value = error.response.data.errors;
     }
   };
 
@@ -56,6 +54,7 @@ export default function restUser() {
   return {
     user,
     users,
+    errors,
     getUser,
     getUsers,
     createUser,

@@ -80,6 +80,7 @@ export default function restOrder() {
       }
     }
     localStorage.removeItem("userBasket");
+    router.push({ name: "Profile" });
   };
 
   const deleteOrder = async (id) => {
