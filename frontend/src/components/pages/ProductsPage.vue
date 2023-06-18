@@ -9,7 +9,7 @@
         class="w-full col-span-2 flex relative flex-grow gap-4 rounded-3x px-12"
       >
         <div
-          class="grid grid-cols-2 mx-12 w-auto align-baseline justify-center flex-col gap-2"
+          class="grid grid-cols-3 w-auto align-baseline justify-center flex-col gap-2"
         >
           <div
             v-for="product in searchProducts"

@@ -6,6 +6,7 @@ export default function restProduct() {
   const router = useRouter();
   const product = ref([]);
   const products = ref([]);
+  const productsCount = ref([]);
 
   const errors = ref({});
 
@@ -15,12 +16,21 @@ export default function restProduct() {
     );
     products.value = response.data;
   };
-
-  const getProductsByPageNumber = async (page_number) => {
+  const getProductsCount = async () => {
     const response = await axios.get(
-      "http://localhost:8001/api/v1/products/all?page=" + page_number
+      "http://localhost:8001/api/v1/products/count"
     );
-    products.value = response.data.data;
+    productsCount.value = response.data;
+  };
+
+  const getProductsByPageNumber = async (page_number, products_count) => {
+    const response = await axios.get(
+      "http://localhost:8001/api/v1/products?page=" +
+        page_number +
+        "&count=" +
+        products_count
+    );
+    products.value = response.data;
   };
 
   const getProductsByCategoryId = async (category_id) => {
@@ -145,9 +155,11 @@ export default function restProduct() {
   return {
     product,
     products,
+    productsCount,
     errors,
     getProduct,
     getProducts,
+    getProductsCount,
     getProductsByCategoryId,
     getProductsByNameAndPageNumber,
     getProductsByNameAndPageNumberAndCategoryId,

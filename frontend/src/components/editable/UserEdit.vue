@@ -31,6 +31,7 @@
                 <label class="text-neutral-500 text-sm"
                   >Введіть ваше ім'я</label
                 >
+                {{ user }}
                 <input
                   class="w-full px-4 py-4 border-2 border-emerald-500 rounded-xl shadow-2xl transition-colors duration-300 ease-in-out focus:outline-none focus:border-transparent"
                   type="text"
@@ -61,6 +62,17 @@
                   v-model="user.phone"
                 />
 
+                <h3 class="text-neutral-700 font-bold text-2xl">Пароль</h3>
+                <label class="text-neutral-500 text-sm">Ваш пароль</label>
+                <input
+                  class="w-full px-4 py-4 border-2 border-emerald-500 rounded-xl shadow-2xl transition-colors duration-300 ease-in-out focus:outline-none focus:border-transparent"
+                  type="text"
+                  v-model="user.password"
+                />
+
+                <div v-for="error in errors" :key="error.id">
+                  <p class="text-sm text-red-400">{{ error }}</p>
+                </div>
                 <div class="items-center gap-4 mt-2 flex justify-center">
                   <button type="submit">
                     <div
@@ -96,7 +108,7 @@
 import { onMounted } from "vue";
 import restUser from "@/composables/user";
 
-const { getUser, updateUser, user } = restUser();
+const { getUser, errors, updateUser, user } = restUser();
 
 onMounted(() => {
   getUser();
