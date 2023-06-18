@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.Range;
 import org.springframework.validation.annotation.Validated;
 
 @Data
@@ -21,7 +22,9 @@ public class ProductDTORequest {
     @NotBlank(message = "Description cannot be blank")
     private String description;
     private float price;
-    private int categoryId;
+    @NotNull(message= "Category must be not empty")
+    @Range(min = 0)
+    private Integer categoryId;
     private boolean disabled;
     @NotBlank(message = "Image cannot be blank")
     private String imagePath;

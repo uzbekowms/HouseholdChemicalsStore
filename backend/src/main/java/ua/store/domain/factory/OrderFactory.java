@@ -41,7 +41,7 @@ public class OrderFactory {
                 .id(order.getId())
                 .timeOfOrder(new Date())
                 .owner(userRepository.findByEmail(jwtService.extractUsername(order.getJwt())).orElseThrow())
-                .status(orderStatusRepository.findByName("Ordered"))
+                .status(orderStatusRepository.findByName("Замовлено"))
                 .build();
         orderFromDto.setProducts(order.getProducts().stream()
                 .map(product ->
