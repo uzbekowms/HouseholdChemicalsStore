@@ -7,11 +7,13 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.validation.annotation.Validated;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Validated
 public class ProductDTORequest {
     private int id;
     @NotBlank(message = "Name cannot be blank")
@@ -20,7 +22,6 @@ public class ProductDTORequest {
     private String description;
     @NotBlank(message = "Price cannot be blank")
     private float price;
-    @NotEmpty(message = "Category cannot be blank")
     private int categoryId;
     private boolean disabled;
     @NotBlank(message = "Image cannot be blank")
