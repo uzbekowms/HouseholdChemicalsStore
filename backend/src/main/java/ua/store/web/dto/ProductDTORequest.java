@@ -18,9 +18,7 @@ public class ProductDTORequest {
     private String name;
     @NotBlank(message = "Description cannot be blank")
     private String description;
-    @NotBlank(message = "Price cannot be blank")
     private float price;
-    @NotEmpty(message = "Category cannot be blank")
     private int categoryId;
     private boolean disabled;
     @NotBlank(message = "Image cannot be blank")

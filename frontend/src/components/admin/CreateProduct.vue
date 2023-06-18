@@ -76,6 +76,9 @@
                     accept="image/png, image/jpg, image/jpeg, image/webp"
                     @change="handleFileUpload"
                   />
+                  <div v-for="error in errors" :key="error.id">
+                    <p class="text-sm text-red-400">{{ error }}</p>
+                  </div>
 
                   <div class="items-center gap-4 mt-12 flex justify-center">
                     <button type="submit">
@@ -104,7 +107,7 @@ import restProduct from "../../composables/product";
 import restCategory from "../../composables/category";
 
 const { categories, getCategories } = restCategory();
-const { createProduct } = restProduct();
+const { createProduct, errors } = restProduct();
 
 const form = reactive({
   name: "",

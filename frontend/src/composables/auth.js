@@ -24,11 +24,13 @@ export default function restAuth() {
         router.push({ name: "Profile" });
       }
     } catch (err) {
+      console.log(err.response);
       errors.value = err.response.data.errors;
     }
   };
 
   const userLogged = async () => {
+    6;
     if ("token" in localStorage) {
       const token = localStorage.getItem("token");
       console.log(token);
