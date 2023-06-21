@@ -1,1 +1,1 @@
-java -Dserver.port=8001 -jar target/backend-0.0.1-SNAPSHOT.jar
+java -Dserver.port=8001 -jar backend-0.0.1-SNAPSHOT.jar
